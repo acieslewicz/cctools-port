@@ -20,7 +20,7 @@
 
 #include "helper.h"
 
-const char ldVersionString[] = "134.9\n";
+const char ldVersionString[] = "@(#)PROGRAM:ld  PROJECT:ld64-134.9\n";
 
 
 void __assert_rtn(const char *func, const char *file, int line, const char *msg)
