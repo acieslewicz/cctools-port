@@ -1,4 +1,4 @@
-const char ldVersionString[] = "264.3.102\n";
+const char ldVersionString[] = "@(#)PROGRAM:ld  PROJECT:ld64-264.3.102\n";
 
 #ifndef __APPLE__
 
