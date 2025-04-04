@@ -44,6 +44,7 @@
 #include <tapi/tapi.h>
 #endif /* TAPI_SUPPORT */
 
+#include <set>
 #include <vector>
 #include <map>
 #include <sstream>
@@ -2594,6 +2595,9 @@ void Options::parse(int argc, const char* argv[])
 	// reduce re-allocations
 	fInputFiles.reserve(32);
 
+	// ignore duplicate rpaths
+	std::set<std::string> seen_rpaths;
+
 	// pass two parse all other options
 	for(int i=1; i < argc; ++i) {
 		const char* arg = argv[i];
@@ -3677,7 +3681,13 @@ void Options::parse(int argc, const char* argv[])
 			}
 			else if ( strcmp(arg, "-rpath") == 0 ) {
 				const char* path = checkForNullArgument(arg, argv[++i]);
+				const std::string rpath_str = path;
+				if (seen_rpaths.count(rpath_str)) {
+					fprintf(stderr, "ld: warning: duplicate -rpath '%s' ignored\n", rpath_str.c_str());
+				} else {
 				fRPaths.push_back(path);
+				seen_rpaths.insert(rpath_str);
+				}
 			}
 			else if ( strcmp(arg, "-read_only_stubs") == 0 ) {
 				fReadOnlyx86Stubs = true;
