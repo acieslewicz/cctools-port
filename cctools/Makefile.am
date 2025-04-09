@@ -1,5 +1,4 @@
-SUBDIRS=libstuff libmacho ar as misc otool efitools ld64 man
-
+SUBDIRS=libstuff libmacho misc
 ACLOCAL_AMFLAGS = -I m4
 
 DSTROOT=

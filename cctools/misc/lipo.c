@@ -47,7 +47,7 @@
 #include <limits.h>
 #include <errno.h>
 #include <ctype.h>
-#include <libc.h>
+//#include <libc.h>
 #ifndef __OPENSTEP__
 #include <time.h>
 #include <utime.h>

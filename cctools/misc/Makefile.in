@@ -91,21 +91,13 @@ POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
 target_triplet = @target@
-bin_PROGRAMS = checksyms$(EXEEXT) lipo$(EXEEXT) size$(EXEEXT) \
-	strings$(EXEEXT) nm$(EXEEXT) libtool$(EXEEXT) \
-	redo_prebinding$(EXEEXT) seg_addr_table$(EXEEXT) \
-	seg_hack$(EXEEXT) install_name_tool$(EXEEXT) strip$(EXEEXT) \
-	nmedit$(EXEEXT) segedit$(EXEEXT) pagestuff$(EXEEXT) \
-	ranlib$(EXEEXT) codesign_allocate$(EXEEXT) \
-	bitcode_strip$(EXEEXT) ctf_insert$(EXEEXT) \
-	check_dylib$(EXEEXT) cmpdylib$(EXEEXT) inout$(EXEEXT) \
-	vtool$(EXEEXT)
+bin_PROGRAMS = lipo$(EXEEXT)
 subdir = misc
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/libtool.m4 \
-	$(top_srcdir)/m4/llvm.m4 $(top_srcdir)/m4/ltoptions.m4 \
-	$(top_srcdir)/m4/ltsugar.m4 $(top_srcdir)/m4/ltversion.m4 \
-	$(top_srcdir)/m4/lt~obsolete.m4 $(top_srcdir)/configure.ac
+	$(top_srcdir)/m4/ltoptions.m4 $(top_srcdir)/m4/ltsugar.m4 \
+	$(top_srcdir)/m4/ltversion.m4 $(top_srcdir)/m4/lt~obsolete.m4 \
+	$(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 DIST_COMMON = $(srcdir)/Makefile.am $(am__DIST_COMMON)
@@ -114,174 +106,17 @@ CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
-am_bitcode_strip_OBJECTS = bitcode_strip-bitcode_strip.$(OBJEXT)
-bitcode_strip_OBJECTS = $(am_bitcode_strip_OBJECTS)
-bitcode_strip_LDADD = $(LDADD)
+am_lipo_OBJECTS = lipo.$(OBJEXT)
+lipo_OBJECTS = $(am_lipo_OBJECTS)
+lipo_LDADD = $(LDADD)
 am__DEPENDENCIES_1 =
-bitcode_strip_DEPENDENCIES = $(top_builddir)/libmacho/libmacho.la \
+lipo_DEPENDENCIES = $(top_builddir)/libmacho/libmacho.la \
 	$(top_builddir)/libstuff/libstuff.la $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
 	$(am__DEPENDENCIES_1)
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
 am__v_lt_0 = --silent
 am__v_lt_1 = 
-bitcode_strip_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
-	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(bitcode_strip_CFLAGS) \
-	$(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
-am_check_dylib_OBJECTS = check_dylib.$(OBJEXT)
-check_dylib_OBJECTS = $(am_check_dylib_OBJECTS)
-check_dylib_LDADD = $(LDADD)
-check_dylib_DEPENDENCIES = $(top_builddir)/libmacho/libmacho.la \
-	$(top_builddir)/libstuff/libstuff.la $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1)
-am_checksyms_OBJECTS = checksyms.$(OBJEXT)
-checksyms_OBJECTS = $(am_checksyms_OBJECTS)
-checksyms_LDADD = $(LDADD)
-checksyms_DEPENDENCIES = $(top_builddir)/libmacho/libmacho.la \
-	$(top_builddir)/libstuff/libstuff.la $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1)
-am_cmpdylib_OBJECTS = cmpdylib.$(OBJEXT)
-cmpdylib_OBJECTS = $(am_cmpdylib_OBJECTS)
-cmpdylib_LDADD = $(LDADD)
-cmpdylib_DEPENDENCIES = $(top_builddir)/libmacho/libmacho.la \
-	$(top_builddir)/libstuff/libstuff.la $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1)
-am_codesign_allocate_OBJECTS = codesign_allocate.$(OBJEXT)
-codesign_allocate_OBJECTS = $(am_codesign_allocate_OBJECTS)
-codesign_allocate_LDADD = $(LDADD)
-codesign_allocate_DEPENDENCIES = $(top_builddir)/libmacho/libmacho.la \
-	$(top_builddir)/libstuff/libstuff.la $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1)
-am_ctf_insert_OBJECTS = ctf_insert.$(OBJEXT)
-ctf_insert_OBJECTS = $(am_ctf_insert_OBJECTS)
-ctf_insert_LDADD = $(LDADD)
-ctf_insert_DEPENDENCIES = $(top_builddir)/libmacho/libmacho.la \
-	$(top_builddir)/libstuff/libstuff.la $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1)
-am_inout_OBJECTS = inout.$(OBJEXT)
-inout_OBJECTS = $(am_inout_OBJECTS)
-inout_LDADD = $(LDADD)
-inout_DEPENDENCIES = $(top_builddir)/libmacho/libmacho.la \
-	$(top_builddir)/libstuff/libstuff.la $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1)
-am_install_name_tool_OBJECTS = install_name_tool.$(OBJEXT)
-install_name_tool_OBJECTS = $(am_install_name_tool_OBJECTS)
-install_name_tool_LDADD = $(LDADD)
-install_name_tool_DEPENDENCIES = $(top_builddir)/libmacho/libmacho.la \
-	$(top_builddir)/libstuff/libstuff.la $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1)
-am_libtool_OBJECTS = libtool.$(OBJEXT)
-libtool_OBJECTS = $(am_libtool_OBJECTS)
-libtool_LDADD = $(LDADD)
-libtool_DEPENDENCIES = $(top_builddir)/libmacho/libmacho.la \
-	$(top_builddir)/libstuff/libstuff.la $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1)
-am_lipo_OBJECTS = lipo.$(OBJEXT)
-lipo_OBJECTS = $(am_lipo_OBJECTS)
-lipo_LDADD = $(LDADD)
-lipo_DEPENDENCIES = $(top_builddir)/libmacho/libmacho.la \
-	$(top_builddir)/libstuff/libstuff.la $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1)
-am_nm_OBJECTS = nm.$(OBJEXT)
-nm_OBJECTS = $(am_nm_OBJECTS)
-nm_LDADD = $(LDADD)
-nm_DEPENDENCIES = $(top_builddir)/libmacho/libmacho.la \
-	$(top_builddir)/libstuff/libstuff.la $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1)
-am_nmedit_OBJECTS = nmedit-strip.$(OBJEXT)
-nmedit_OBJECTS = $(am_nmedit_OBJECTS)
-nmedit_LDADD = $(LDADD)
-nmedit_DEPENDENCIES = $(top_builddir)/libmacho/libmacho.la \
-	$(top_builddir)/libstuff/libstuff.la $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1)
-nmedit_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
-	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(nmedit_CFLAGS) $(CFLAGS) \
-	$(AM_LDFLAGS) $(LDFLAGS) -o $@
-am_pagestuff_OBJECTS = pagestuff.$(OBJEXT)
-pagestuff_OBJECTS = $(am_pagestuff_OBJECTS)
-pagestuff_LDADD = $(LDADD)
-pagestuff_DEPENDENCIES = $(top_builddir)/libmacho/libmacho.la \
-	$(top_builddir)/libstuff/libstuff.la $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1)
-am_ranlib_OBJECTS = ranlib-libtool.$(OBJEXT)
-ranlib_OBJECTS = $(am_ranlib_OBJECTS)
-ranlib_LDADD = $(LDADD)
-ranlib_DEPENDENCIES = $(top_builddir)/libmacho/libmacho.la \
-	$(top_builddir)/libstuff/libstuff.la $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1)
-ranlib_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
-	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(ranlib_CFLAGS) $(CFLAGS) \
-	$(AM_LDFLAGS) $(LDFLAGS) -o $@
-am_redo_prebinding_OBJECTS = redo_prebinding.$(OBJEXT)
-redo_prebinding_OBJECTS = $(am_redo_prebinding_OBJECTS)
-redo_prebinding_LDADD = $(LDADD)
-redo_prebinding_DEPENDENCIES = $(top_builddir)/libmacho/libmacho.la \
-	$(top_builddir)/libstuff/libstuff.la $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1)
-am_seg_addr_table_OBJECTS = seg_addr_table.$(OBJEXT)
-seg_addr_table_OBJECTS = $(am_seg_addr_table_OBJECTS)
-seg_addr_table_LDADD = $(LDADD)
-seg_addr_table_DEPENDENCIES = $(top_builddir)/libmacho/libmacho.la \
-	$(top_builddir)/libstuff/libstuff.la $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1)
-am_seg_hack_OBJECTS = seg_hack.$(OBJEXT)
-seg_hack_OBJECTS = $(am_seg_hack_OBJECTS)
-seg_hack_LDADD = $(LDADD)
-seg_hack_DEPENDENCIES = $(top_builddir)/libmacho/libmacho.la \
-	$(top_builddir)/libstuff/libstuff.la $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1)
-am_segedit_OBJECTS = segedit.$(OBJEXT)
-segedit_OBJECTS = $(am_segedit_OBJECTS)
-segedit_LDADD = $(LDADD)
-segedit_DEPENDENCIES = $(top_builddir)/libmacho/libmacho.la \
-	$(top_builddir)/libstuff/libstuff.la $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1)
-am_size_OBJECTS = size.$(OBJEXT)
-size_OBJECTS = $(am_size_OBJECTS)
-size_LDADD = $(LDADD)
-size_DEPENDENCIES = $(top_builddir)/libmacho/libmacho.la \
-	$(top_builddir)/libstuff/libstuff.la $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1)
-am_strings_OBJECTS = strings.$(OBJEXT)
-strings_OBJECTS = $(am_strings_OBJECTS)
-strings_LDADD = $(LDADD)
-strings_DEPENDENCIES = $(top_builddir)/libmacho/libmacho.la \
-	$(top_builddir)/libstuff/libstuff.la $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1)
-am_strip_OBJECTS = strip.$(OBJEXT)
-strip_OBJECTS = $(am_strip_OBJECTS)
-strip_LDADD = $(LDADD)
-strip_DEPENDENCIES = $(top_builddir)/libmacho/libmacho.la \
-	$(top_builddir)/libstuff/libstuff.la $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1)
-am_vtool_OBJECTS = vtool.$(OBJEXT)
-vtool_OBJECTS = $(am_vtool_OBJECTS)
-vtool_LDADD = $(LDADD)
-vtool_DEPENDENCIES = $(top_builddir)/libmacho/libmacho.la \
-	$(top_builddir)/libstuff/libstuff.la $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1)
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
 am__v_P_0 = false
@@ -315,24 +150,8 @@ AM_V_CCLD = $(am__v_CCLD_@AM_V@)
 am__v_CCLD_ = $(am__v_CCLD_@AM_DEFAULT_V@)
 am__v_CCLD_0 = @echo "  CCLD    " $@;
 am__v_CCLD_1 = 
-SOURCES = $(bitcode_strip_SOURCES) $(check_dylib_SOURCES) \
-	$(checksyms_SOURCES) $(cmpdylib_SOURCES) \
-	$(codesign_allocate_SOURCES) $(ctf_insert_SOURCES) \
-	$(inout_SOURCES) $(install_name_tool_SOURCES) \
-	$(libtool_SOURCES) $(lipo_SOURCES) $(nm_SOURCES) \
-	$(nmedit_SOURCES) $(pagestuff_SOURCES) $(ranlib_SOURCES) \
-	$(redo_prebinding_SOURCES) $(seg_addr_table_SOURCES) \
-	$(seg_hack_SOURCES) $(segedit_SOURCES) $(size_SOURCES) \
-	$(strings_SOURCES) $(strip_SOURCES) $(vtool_SOURCES)
-DIST_SOURCES = $(bitcode_strip_SOURCES) $(check_dylib_SOURCES) \
-	$(checksyms_SOURCES) $(cmpdylib_SOURCES) \
-	$(codesign_allocate_SOURCES) $(ctf_insert_SOURCES) \
-	$(inout_SOURCES) $(install_name_tool_SOURCES) \
-	$(libtool_SOURCES) $(lipo_SOURCES) $(nm_SOURCES) \
-	$(nmedit_SOURCES) $(pagestuff_SOURCES) $(ranlib_SOURCES) \
-	$(redo_prebinding_SOURCES) $(seg_addr_table_SOURCES) \
-	$(seg_hack_SOURCES) $(segedit_SOURCES) $(size_SOURCES) \
-	$(strings_SOURCES) $(strip_SOURCES) $(vtool_SOURCES)
+SOURCES = $(lipo_SOURCES)
+DIST_SOURCES = $(lipo_SOURCES)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -361,28 +180,18 @@ ACLOCAL = @ACLOCAL@
 AMTAR = @AMTAR@
 AM_DEFAULT_VERBOSITY = @AM_DEFAULT_VERBOSITY@
 AR = @AR@
-ASLIBEXECDIR = @ASLIBEXECDIR@
 AUTOCONF = @AUTOCONF@
 AUTOHEADER = @AUTOHEADER@
 AUTOMAKE = @AUTOMAKE@
 AWK = @AWK@
-BLOCKS_RUNTIME_LIB = @BLOCKS_RUNTIME_LIB@
 CC = @CC@
-CCAS = @CCAS@
-CCASFLAGS = @CCASFLAGS@
 CFLAGS = @CFLAGS@
 CPPFLAGS = @CPPFLAGS@
 CSCOPE = @CSCOPE@
 CTAGS = @CTAGS@
-CXX = @CXX@
-CXXABI_LIB = @CXXABI_LIB@
-CXXCPP = @CXXCPP@
-CXXFLAGS = @CXXFLAGS@
 CYGPATH_W = @CYGPATH_W@
 DEFS = @DEFS@
-DISPATCH_LIB = @DISPATCH_LIB@
 DLLTOOL = @DLLTOOL@
-DL_LIB = @DL_LIB@
 DSYMUTIL = @DSYMUTIL@
 DUMPBIN = @DUMPBIN@
 ECHO_C = @ECHO_C@
@@ -391,11 +200,9 @@ ECHO_T = @ECHO_T@
 EGREP = @EGREP@
 ENDIAN_FLAG = @ENDIAN_FLAG@
 ETAGS = @ETAGS@
-EXECINFO_LIB = @EXECINFO_LIB@
 EXEEXT = @EXEEXT@
 FGREP = @FGREP@
 FILECMD = @FILECMD@
-FTS_LIB = @FTS_LIB@
 GCC_LIB = @GCC_LIB@
 GREP = @GREP@
 HOST_AR = @HOST_AR@
@@ -411,14 +218,8 @@ LIBOBJS = @LIBOBJS@
 LIBS = @LIBS@
 LIBTOOL = @LIBTOOL@
 LIPO = @LIPO@
-LLVM_CONFIG = @LLVM_CONFIG@
-LLVM_INCLUDE_DIR = @LLVM_INCLUDE_DIR@
-LLVM_LIB_DIR = @LLVM_LIB_DIR@
 LN_S = @LN_S@
 LTLIBOBJS = @LTLIBOBJS@
-LTO_DEF = @LTO_DEF@
-LTO_LIB = @LTO_LIB@
-LTO_RPATH = @LTO_RPATH@
 LT_SYS_LIBRARY_PATH = @LT_SYS_LIBRARY_PATH@
 MAINT = @MAINT@
 MAKEINFO = @MAKEINFO@
@@ -447,19 +248,15 @@ SED = @SED@
 SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
 STRIP = @STRIP@
-TAPI_DEF = @TAPI_DEF@
-TAPI_LIB = @TAPI_LIB@
 UUID_LIB = @UUID_LIB@
 VERSION = @VERSION@
 WARNINGS = @WARNINGS@
-XAR_LIB = @XAR_LIB@
 abs_builddir = @abs_builddir@
 abs_srcdir = @abs_srcdir@
 abs_top_builddir = @abs_top_builddir@
 abs_top_srcdir = @abs_top_srcdir@
 ac_ct_AR = @ac_ct_AR@
 ac_ct_CC = @ac_ct_CC@
-ac_ct_CXX = @ac_ct_CXX@
 ac_ct_DUMPBIN = @ac_ct_DUMPBIN@
 am__leading_dot = @am__leading_dot@
 am__rm_f_notfound = @am__rm_f_notfound@
@@ -512,39 +309,13 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 LDADD = \
-        $(top_builddir)/libmacho/libmacho.la \
+    $(top_builddir)/libmacho/libmacho.la \
 	$(top_builddir)/libstuff/libstuff.la \
-	$(DL_LIB) \
-	$(LTO_RPATH) \
 	$(MATH_LIB) \
 	$(REALLOCF_LIB)
 
 AM_CFLAGS = -I$(top_srcdir)/include -I$(top_srcdir)/include/foreign -I$(top_srcdir)/libstuff $(WARNINGS) $(LTO_DEF) -D__DARWIN_UNIX03 $(ENDIAN_FLAG)
-checksyms_SOURCES = checksyms.c
 lipo_SOURCES = lipo.c
-size_SOURCES = size.c
-strings_SOURCES = strings.c
-nm_SOURCES = nm.c
-libtool_SOURCES = libtool.c
-redo_prebinding_SOURCES = redo_prebinding.c
-seg_addr_table_SOURCES = seg_addr_table.c
-seg_hack_SOURCES = seg_hack.c
-install_name_tool_SOURCES = install_name_tool.c
-strip_SOURCES = strip.c
-nmedit_SOURCES = strip.c
-nmedit_CFLAGS = -DNMEDIT $(AM_CFLAGS)
-segedit_SOURCES = segedit.c
-pagestuff_SOURCES = pagestuff.c
-ranlib_SOURCES = libtool.c
-ranlib_CFLAGS = -DRANLIB $(AM_CFLAGS)
-codesign_allocate_SOURCES = codesign_allocate.c
-bitcode_strip_SOURCES = bitcode_strip.c
-bitcode_strip_CFLAGS = -DALLOW_ARCHIVES $(AM_CFLAGS)
-ctf_insert_SOURCES = ctf_insert.c
-check_dylib_SOURCES = check_dylib.c
-cmpdylib_SOURCES = cmpdylib.c
-inout_SOURCES = inout.c
-vtool_SOURCES = vtool.c
 all: all-am
 
 .SUFFIXES:
@@ -623,93 +394,9 @@ clean-binPROGRAMS:
 	$(am__rm_f) $(bin_PROGRAMS)
 	test -z "$(EXEEXT)" || $(am__rm_f) $(bin_PROGRAMS:$(EXEEXT)=)
 
-bitcode_strip$(EXEEXT): $(bitcode_strip_OBJECTS) $(bitcode_strip_DEPENDENCIES) $(EXTRA_bitcode_strip_DEPENDENCIES) 
-	@rm -f bitcode_strip$(EXEEXT)
-	$(AM_V_CCLD)$(bitcode_strip_LINK) $(bitcode_strip_OBJECTS) $(bitcode_strip_LDADD) $(LIBS)
-
-check_dylib$(EXEEXT): $(check_dylib_OBJECTS) $(check_dylib_DEPENDENCIES) $(EXTRA_check_dylib_DEPENDENCIES) 
-	@rm -f check_dylib$(EXEEXT)
-	$(AM_V_CCLD)$(LINK) $(check_dylib_OBJECTS) $(check_dylib_LDADD) $(LIBS)
-
-checksyms$(EXEEXT): $(checksyms_OBJECTS) $(checksyms_DEPENDENCIES) $(EXTRA_checksyms_DEPENDENCIES) 
-	@rm -f checksyms$(EXEEXT)
-	$(AM_V_CCLD)$(LINK) $(checksyms_OBJECTS) $(checksyms_LDADD) $(LIBS)
-
-cmpdylib$(EXEEXT): $(cmpdylib_OBJECTS) $(cmpdylib_DEPENDENCIES) $(EXTRA_cmpdylib_DEPENDENCIES) 
-	@rm -f cmpdylib$(EXEEXT)
-	$(AM_V_CCLD)$(LINK) $(cmpdylib_OBJECTS) $(cmpdylib_LDADD) $(LIBS)
-
-codesign_allocate$(EXEEXT): $(codesign_allocate_OBJECTS) $(codesign_allocate_DEPENDENCIES) $(EXTRA_codesign_allocate_DEPENDENCIES) 
-	@rm -f codesign_allocate$(EXEEXT)
-	$(AM_V_CCLD)$(LINK) $(codesign_allocate_OBJECTS) $(codesign_allocate_LDADD) $(LIBS)
-
-ctf_insert$(EXEEXT): $(ctf_insert_OBJECTS) $(ctf_insert_DEPENDENCIES) $(EXTRA_ctf_insert_DEPENDENCIES) 
-	@rm -f ctf_insert$(EXEEXT)
-	$(AM_V_CCLD)$(LINK) $(ctf_insert_OBJECTS) $(ctf_insert_LDADD) $(LIBS)
-
-inout$(EXEEXT): $(inout_OBJECTS) $(inout_DEPENDENCIES) $(EXTRA_inout_DEPENDENCIES) 
-	@rm -f inout$(EXEEXT)
-	$(AM_V_CCLD)$(LINK) $(inout_OBJECTS) $(inout_LDADD) $(LIBS)
-
-install_name_tool$(EXEEXT): $(install_name_tool_OBJECTS) $(install_name_tool_DEPENDENCIES) $(EXTRA_install_name_tool_DEPENDENCIES) 
-	@rm -f install_name_tool$(EXEEXT)
-	$(AM_V_CCLD)$(LINK) $(install_name_tool_OBJECTS) $(install_name_tool_LDADD) $(LIBS)
-
-libtool$(EXEEXT): $(libtool_OBJECTS) $(libtool_DEPENDENCIES) $(EXTRA_libtool_DEPENDENCIES) 
-	@rm -f libtool$(EXEEXT)
-	$(AM_V_CCLD)$(LINK) $(libtool_OBJECTS) $(libtool_LDADD) $(LIBS)
-
 lipo$(EXEEXT): $(lipo_OBJECTS) $(lipo_DEPENDENCIES) $(EXTRA_lipo_DEPENDENCIES) 
 	@rm -f lipo$(EXEEXT)
 	$(AM_V_CCLD)$(LINK) $(lipo_OBJECTS) $(lipo_LDADD) $(LIBS)
-
-nm$(EXEEXT): $(nm_OBJECTS) $(nm_DEPENDENCIES) $(EXTRA_nm_DEPENDENCIES) 
-	@rm -f nm$(EXEEXT)
-	$(AM_V_CCLD)$(LINK) $(nm_OBJECTS) $(nm_LDADD) $(LIBS)
-
-nmedit$(EXEEXT): $(nmedit_OBJECTS) $(nmedit_DEPENDENCIES) $(EXTRA_nmedit_DEPENDENCIES) 
-	@rm -f nmedit$(EXEEXT)
-	$(AM_V_CCLD)$(nmedit_LINK) $(nmedit_OBJECTS) $(nmedit_LDADD) $(LIBS)
-
-pagestuff$(EXEEXT): $(pagestuff_OBJECTS) $(pagestuff_DEPENDENCIES) $(EXTRA_pagestuff_DEPENDENCIES) 
-	@rm -f pagestuff$(EXEEXT)
-	$(AM_V_CCLD)$(LINK) $(pagestuff_OBJECTS) $(pagestuff_LDADD) $(LIBS)
-
-ranlib$(EXEEXT): $(ranlib_OBJECTS) $(ranlib_DEPENDENCIES) $(EXTRA_ranlib_DEPENDENCIES) 
-	@rm -f ranlib$(EXEEXT)
-	$(AM_V_CCLD)$(ranlib_LINK) $(ranlib_OBJECTS) $(ranlib_LDADD) $(LIBS)
-
-redo_prebinding$(EXEEXT): $(redo_prebinding_OBJECTS) $(redo_prebinding_DEPENDENCIES) $(EXTRA_redo_prebinding_DEPENDENCIES) 
-	@rm -f redo_prebinding$(EXEEXT)
-	$(AM_V_CCLD)$(LINK) $(redo_prebinding_OBJECTS) $(redo_prebinding_LDADD) $(LIBS)
-
-seg_addr_table$(EXEEXT): $(seg_addr_table_OBJECTS) $(seg_addr_table_DEPENDENCIES) $(EXTRA_seg_addr_table_DEPENDENCIES) 
-	@rm -f seg_addr_table$(EXEEXT)
-	$(AM_V_CCLD)$(LINK) $(seg_addr_table_OBJECTS) $(seg_addr_table_LDADD) $(LIBS)
-
-seg_hack$(EXEEXT): $(seg_hack_OBJECTS) $(seg_hack_DEPENDENCIES) $(EXTRA_seg_hack_DEPENDENCIES) 
-	@rm -f seg_hack$(EXEEXT)
-	$(AM_V_CCLD)$(LINK) $(seg_hack_OBJECTS) $(seg_hack_LDADD) $(LIBS)
-
-segedit$(EXEEXT): $(segedit_OBJECTS) $(segedit_DEPENDENCIES) $(EXTRA_segedit_DEPENDENCIES) 
-	@rm -f segedit$(EXEEXT)
-	$(AM_V_CCLD)$(LINK) $(segedit_OBJECTS) $(segedit_LDADD) $(LIBS)
-
-size$(EXEEXT): $(size_OBJECTS) $(size_DEPENDENCIES) $(EXTRA_size_DEPENDENCIES) 
-	@rm -f size$(EXEEXT)
-	$(AM_V_CCLD)$(LINK) $(size_OBJECTS) $(size_LDADD) $(LIBS)
-
-strings$(EXEEXT): $(strings_OBJECTS) $(strings_DEPENDENCIES) $(EXTRA_strings_DEPENDENCIES) 
-	@rm -f strings$(EXEEXT)
-	$(AM_V_CCLD)$(LINK) $(strings_OBJECTS) $(strings_LDADD) $(LIBS)
-
-strip$(EXEEXT): $(strip_OBJECTS) $(strip_DEPENDENCIES) $(EXTRA_strip_DEPENDENCIES) 
-	@rm -f strip$(EXEEXT)
-	$(AM_V_CCLD)$(LINK) $(strip_OBJECTS) $(strip_LDADD) $(LIBS)
-
-vtool$(EXEEXT): $(vtool_OBJECTS) $(vtool_DEPENDENCIES) $(EXTRA_vtool_DEPENDENCIES) 
-	@rm -f vtool$(EXEEXT)
-	$(AM_V_CCLD)$(LINK) $(vtool_OBJECTS) $(vtool_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -725,24 +412,6 @@ distclean-compile:
 
 .c.lo:
 	$(AM_V_CC)$(LTCOMPILE) -c -o $@ $<
-
-bitcode_strip-bitcode_strip.o: bitcode_strip.c
-	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(bitcode_strip_CFLAGS) $(CFLAGS) -c -o bitcode_strip-bitcode_strip.o `test -f 'bitcode_strip.c' || echo '$(srcdir)/'`bitcode_strip.c
-
-bitcode_strip-bitcode_strip.obj: bitcode_strip.c
-	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(bitcode_strip_CFLAGS) $(CFLAGS) -c -o bitcode_strip-bitcode_strip.obj `if test -f 'bitcode_strip.c'; then $(CYGPATH_W) 'bitcode_strip.c'; else $(CYGPATH_W) '$(srcdir)/bitcode_strip.c'; fi`
-
-nmedit-strip.o: strip.c
-	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(nmedit_CFLAGS) $(CFLAGS) -c -o nmedit-strip.o `test -f 'strip.c' || echo '$(srcdir)/'`strip.c
-
-nmedit-strip.obj: strip.c
-	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(nmedit_CFLAGS) $(CFLAGS) -c -o nmedit-strip.obj `if test -f 'strip.c'; then $(CYGPATH_W) 'strip.c'; else $(CYGPATH_W) '$(srcdir)/strip.c'; fi`
-
-ranlib-libtool.o: libtool.c
-	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(ranlib_CFLAGS) $(CFLAGS) -c -o ranlib-libtool.o `test -f 'libtool.c' || echo '$(srcdir)/'`libtool.c
-
-ranlib-libtool.obj: libtool.c
-	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(ranlib_CFLAGS) $(CFLAGS) -c -o ranlib-libtool.obj `if test -f 'libtool.c'; then $(CYGPATH_W) 'libtool.c'; else $(CYGPATH_W) '$(srcdir)/libtool.c'; fi`
 
 mostlyclean-libtool:
 	-rm -f *.lo
