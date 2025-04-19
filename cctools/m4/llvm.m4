@@ -14,9 +14,25 @@ AC_DEFUN([CHECK_LLVM],
       if test "x$LLVM_CONFIG" = "xno"; then
           AC_PATH_PROGS(LLVM_CONFIG,
               [llvm-config                                              \
-               llvm-config-9.0 llvm-config-8.0                          \
-               llvm-config-7.0 llvm-config-6.0                          \
-               llvm-config-5.0 llvm-config-4.0                          \
+               llvm-config-24.0 llvm-config-24                          \
+               llvm-config-23.0 llvm-config-23                          \
+               llvm-config-22.0 llvm-config-22                          \
+               llvm-config-21.0 llvm-config-21                          \
+               llvm-config-20.0 llvm-config-20                          \
+               llvm-config-19.0 llvm-config-19                          \
+               llvm-config-18.0 llvm-config-18                          \
+               llvm-config-17.0 llvm-config-17                          \
+               llvm-config-16.0 llvm-config-16                          \
+               llvm-config-15.0 llvm-config-15                          \
+               llvm-config-14.0 llvm-config-14                          \
+               llvm-config-13.0 llvm-config-13                          \
+               llvm-config-12.0 llvm-config-12                          \
+               llvm-config-11.0 llvm-config-11                          \
+               llvm-config-10.0 llvm-config-10                          \
+               llvm-config-9.0 llvm-config-9                            \
+               llvm-config-8.0 llvm-config-8                            \
+               llvm-config-7.0 llvm-config-7                            \
+               llvm-config-6.0 llvm-config-5.0 llvm-config-4.0          \
                llvm-config-3.9 llvm-config-3.8 llvm-config-3.7          \
                llvm-config-3.6 llvm-config-3.5 llvm-config-3.4          \
                llvm-config-3.3 llvm-config-3.2 llvm-config-3.1          \
