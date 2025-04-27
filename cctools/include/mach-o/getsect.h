@@ -28,18 +28,24 @@
 #include <Availability.h>
 
 #if __has_include(<TargetConditionals.h>) /* cctools-port */
-    #include <TargetConditionals.h>
+		#include <TargetConditionals.h>
 
-    #ifndef __CCTOOLS_DEPRECATED
-        #define __CCTOOLS_DEPRECATED            __API_DEPRECATED("No longer supported", macos(10.0, 13.0), ios(1.0, 16.0), watchos(1.0, 8.0), tvos(1.0, 16.0))
-        #define __CCTOOLS_DEPRECATED_MSG(_msg)  __API_DEPRECATED_WITH_REPLACEMENT(_msg, macos(10.0, 13.0), ios(1.0, 16.0), watchos(1.0, 8.0), tvos(1.0, 16.0))
-    #endif
+		#ifndef __CCTOOLS_DEPRECATED
+				#ifdef __API_DEPRECATED
+						#define __CCTOOLS_DEPRECATED            __API_DEPRECATED("No longer supported", macos(10.0, 13.0), ios(1.0, 16.0), watchos(1.0, 8.0), tvos(1.0, 16.0))
+						#define __CCTOOLS_DEPRECATED_MSG(_msg)  __API_DEPRECATED_WITH_REPLACEMENT(_msg, macos(10.0, 13.0), ios(1.0, 16.0), watchos(1.0, 8.0), tvos(1.0, 16.0))
+				#else
+						#define __CCTOOLS_DEPRECATED
+						#define __CCTOOLS_DEPRECATED_MSG(_msg)
+				#endif
+		#endif
 #else
-    #ifndef __CCTOOLS_DEPRECATED
-        #define __CCTOOLS_DEPRECATED
-        #define __CCTOOLS_DEPRECATED_MSG(_msg)
-    #endif
+		#ifndef __CCTOOLS_DEPRECATED
+				#define __CCTOOLS_DEPRECATED
+				#define __CCTOOLS_DEPRECATED_MSG(_msg)
+		#endif
 #endif
+
 
 #ifdef __cplusplus
 extern "C" {
