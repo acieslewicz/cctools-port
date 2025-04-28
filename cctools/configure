@@ -21178,7 +21178,6 @@ ac_config_files="$ac_config_files misc/Makefile"
 
 ac_config_files="$ac_config_files otool/Makefile"
 
-#AC_CONFIG_FILES([otool-wrapper/Makefile])
 ac_config_files="$ac_config_files efitools/Makefile"
 
 ac_config_files="$ac_config_files ld64/Makefile"
