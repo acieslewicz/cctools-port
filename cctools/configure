@@ -830,7 +830,6 @@ enable_xar_support
 with_libxar
 enable_tapi_support
 with_libtapi
-enable_clang_as
 '
       ac_precious_vars='build_alias
 host_alias
@@ -1493,7 +1492,6 @@ Optional Features:
   --enable-lto-support    enable link time optimization support
   --enable-xar-support    enable xar support
   --enable-tapi-support   enable tapi support
-  --disable-clang-as      do not use clang for assembling
 
 Optional Packages:
   --with-PACKAGE[=ARG]    use PACKAGE [ARG=yes]
@@ -20903,22 +20901,6 @@ printf "%s\n" "$cctools_cv_tapi_support" >&6; }
 
 
 
-fi
-
-### Check whether we want to use clang as assembler ###
-
-# Check whether --enable-clang-as was given.
-if test ${enable_clang_as+y}
-then :
-  enableval=$enable_clang_as;
-else case e in #(
-  e) enable_clang_as=yes ;;
-esac
-fi
-
-
-if test "x$enable_clang_as" != "xyes"; then
-  CFLAGS="$CFLAGS -DDISABLE_CLANG_AS"
 fi
 
 ### Check endianness ###
