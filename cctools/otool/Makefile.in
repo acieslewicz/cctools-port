@@ -109,12 +109,9 @@ PROGRAMS = $(bin_PROGRAMS)
 am__dirstamp = $(am__leading_dot)dirstamp
 am_otool_OBJECTS = otool-main.$(OBJEXT) \
 	$(top_builddir)/libstuff/otool-ofile.$(OBJEXT) \
-	otool-ofile_print.$(OBJEXT) otool-m68k_disasm.$(OBJEXT) \
-	otool-i860_disasm.$(OBJEXT) otool-m88k_disasm.$(OBJEXT) \
-	otool-i386_disasm.$(OBJEXT) otool-ppc_disasm.$(OBJEXT) \
-	otool-hppa_disasm.$(OBJEXT) otool-sparc_disasm.$(OBJEXT) \
-	otool-arm_disasm.$(OBJEXT) otool-print_objc.$(OBJEXT) \
-	otool-print_objc2_32bit.$(OBJEXT) \
+	otool-ofile_print.$(OBJEXT) otool-i386_disasm.$(OBJEXT) \
+	otool-ppc_disasm.$(OBJEXT) otool-arm_disasm.$(OBJEXT) \
+	otool-print_objc.$(OBJEXT) otool-print_objc2_32bit.$(OBJEXT) \
 	otool-print_objc2_64bit.$(OBJEXT) \
 	otool-print_objc2_util.$(OBJEXT) otool-print_bitcode.$(OBJEXT) \
 	otool-coff_print.$(OBJEXT) otool-arm64_disasm.$(OBJEXT) \
@@ -363,13 +360,8 @@ otool_SOURCES = \
 	main.c \
 	$(top_srcdir)/libstuff/ofile.c \
 	ofile_print.c \
-	m68k_disasm.c \
-	i860_disasm.c \
-	m88k_disasm.c \
 	i386_disasm.c \
 	ppc_disasm.c \
-	hppa_disasm.c \
-	sparc_disasm.c \
 	arm_disasm.c \
 	print_objc.c \
 	print_objc2_32bit.c \
@@ -501,24 +493,6 @@ otool-ofile_print.o: ofile_print.c
 otool-ofile_print.obj: ofile_print.c
 	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(otool_CFLAGS) $(CFLAGS) -c -o otool-ofile_print.obj `if test -f 'ofile_print.c'; then $(CYGPATH_W) 'ofile_print.c'; else $(CYGPATH_W) '$(srcdir)/ofile_print.c'; fi`
 
-otool-m68k_disasm.o: m68k_disasm.c
-	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(otool_CFLAGS) $(CFLAGS) -c -o otool-m68k_disasm.o `test -f 'm68k_disasm.c' || echo '$(srcdir)/'`m68k_disasm.c
-
-otool-m68k_disasm.obj: m68k_disasm.c
-	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(otool_CFLAGS) $(CFLAGS) -c -o otool-m68k_disasm.obj `if test -f 'm68k_disasm.c'; then $(CYGPATH_W) 'm68k_disasm.c'; else $(CYGPATH_W) '$(srcdir)/m68k_disasm.c'; fi`
-
-otool-i860_disasm.o: i860_disasm.c
-	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(otool_CFLAGS) $(CFLAGS) -c -o otool-i860_disasm.o `test -f 'i860_disasm.c' || echo '$(srcdir)/'`i860_disasm.c
-
-otool-i860_disasm.obj: i860_disasm.c
-	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(otool_CFLAGS) $(CFLAGS) -c -o otool-i860_disasm.obj `if test -f 'i860_disasm.c'; then $(CYGPATH_W) 'i860_disasm.c'; else $(CYGPATH_W) '$(srcdir)/i860_disasm.c'; fi`
-
-otool-m88k_disasm.o: m88k_disasm.c
-	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(otool_CFLAGS) $(CFLAGS) -c -o otool-m88k_disasm.o `test -f 'm88k_disasm.c' || echo '$(srcdir)/'`m88k_disasm.c
-
-otool-m88k_disasm.obj: m88k_disasm.c
-	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(otool_CFLAGS) $(CFLAGS) -c -o otool-m88k_disasm.obj `if test -f 'm88k_disasm.c'; then $(CYGPATH_W) 'm88k_disasm.c'; else $(CYGPATH_W) '$(srcdir)/m88k_disasm.c'; fi`
-
 otool-i386_disasm.o: i386_disasm.c
 	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(otool_CFLAGS) $(CFLAGS) -c -o otool-i386_disasm.o `test -f 'i386_disasm.c' || echo '$(srcdir)/'`i386_disasm.c
 
@@ -530,18 +504,6 @@ otool-ppc_disasm.o: ppc_disasm.c
 
 otool-ppc_disasm.obj: ppc_disasm.c
 	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(otool_CFLAGS) $(CFLAGS) -c -o otool-ppc_disasm.obj `if test -f 'ppc_disasm.c'; then $(CYGPATH_W) 'ppc_disasm.c'; else $(CYGPATH_W) '$(srcdir)/ppc_disasm.c'; fi`
-
-otool-hppa_disasm.o: hppa_disasm.c
-	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(otool_CFLAGS) $(CFLAGS) -c -o otool-hppa_disasm.o `test -f 'hppa_disasm.c' || echo '$(srcdir)/'`hppa_disasm.c
-
-otool-hppa_disasm.obj: hppa_disasm.c
-	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(otool_CFLAGS) $(CFLAGS) -c -o otool-hppa_disasm.obj `if test -f 'hppa_disasm.c'; then $(CYGPATH_W) 'hppa_disasm.c'; else $(CYGPATH_W) '$(srcdir)/hppa_disasm.c'; fi`
-
-otool-sparc_disasm.o: sparc_disasm.c
-	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(otool_CFLAGS) $(CFLAGS) -c -o otool-sparc_disasm.o `test -f 'sparc_disasm.c' || echo '$(srcdir)/'`sparc_disasm.c
-
-otool-sparc_disasm.obj: sparc_disasm.c
-	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(otool_CFLAGS) $(CFLAGS) -c -o otool-sparc_disasm.obj `if test -f 'sparc_disasm.c'; then $(CYGPATH_W) 'sparc_disasm.c'; else $(CYGPATH_W) '$(srcdir)/sparc_disasm.c'; fi`
 
 otool-arm_disasm.o: arm_disasm.c
 	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(otool_CFLAGS) $(CFLAGS) -c -o otool-arm_disasm.o `test -f 'arm_disasm.c' || echo '$(srcdir)/'`arm_disasm.c
