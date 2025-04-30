@@ -37,6 +37,8 @@
 using namespace __gnu_cxx;
 #endif
 
+using std::ptrdiff_t;
+
 //
 // Encapsulate these very sharp tools in a separate (ugly-named) namespace
 //
@@ -53,8 +55,8 @@ static const size_t systemAlignment = 4;
 //
 // Get the local alignment for a type, as used by the acting compiler.
 //
-template <class T>
-inline size_t alignof() { struct { char c; T t; } s; return sizeof(s) - sizeof(T); }
+//template <class T>
+//inline size_t alignof() { struct { char c; T t; } s; return sizeof(s) - sizeof(T); }
 
 
 //

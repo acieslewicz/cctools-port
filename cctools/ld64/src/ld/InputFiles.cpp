@@ -27,7 +27,9 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <sys/mman.h>
+#if __has_include(<sys/sysctl.h>)
 #include <sys/sysctl.h>
+#endif
 #include <fcntl.h>
 #include <errno.h>
 #include <limits.h>
@@ -39,7 +41,6 @@
 #include <dlfcn.h>
 #include <mach-o/dyld.h>
 #include <mach-o/fat.h>
-#include <sys/sysctl.h>
 #include <libkern/OSAtomic.h>
 
 #include <string>
@@ -725,7 +726,8 @@ InputFiles::InputFiles(Options& opts, const char** archName)
 	_remainingInputFiles = files.size();
 	
 	// initialize info for parsing input files on worker threads
-	unsigned int ncpus;
+	unsigned int ncpus = 8;
+#if __has_include(<sys/sysctl.h>)
 	int mib[2];
 	size_t len = sizeof(ncpus);
 	mib[0] = CTL_HW;
@@ -733,6 +735,7 @@ InputFiles::InputFiles(Options& opts, const char** archName)
 	if (sysctl(mib, 2, &ncpus, &len, NULL, 0) != 0) {
 		ncpus = 1;
 	}
+#endif
 	_availableWorkers = MIN(ncpus, files.size()); // max # workers we permit
 	_idleWorkers = 0;
 	

@@ -13,6 +13,7 @@ function try()
         LLVM_LIB_DIR=`$LLVM_CONFIG --libdir`
         # Adding the include directory with -I causes the build to fail.
         ln -sf "$LLVM_INC_DIR/llvm-c/lto.h" "include/llvm-c/lto.h"
+        ln -sf "$LLVM_INC_DIR/llvm-c/ExternC.h" "include/llvm-c/ExternC.h"
         mkdir -p tmp
         echo -n "-Wl,-rpath,$LLVM_LIB_DIR,--enable-new-dtags -L$LLVM_LIB_DIR -lLTO " > tmp/ldflags
         echo -n "-DLTO_SUPPORT=1 " > tmp/cflags

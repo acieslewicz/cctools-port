@@ -26,7 +26,9 @@
 #include <string.h>
 #include <mach/mach.h>
 #include <sys/types.h>
+#if __has_include(<sys/sysctl.h>)
 #include <sys/sysctl.h>
+#endif
 #include "stuff/errors.h"
 #include "stuff/allocate.h"
 #include "stuff/macosx_deployment_target.h"
@@ -112,11 +114,16 @@ use_default:
 	/*
 	 * The default value is the version of the running OS.
 	 */
+#if __has_include(<sys/sysctl.h>)
 	osversion_name[0] = CTL_KERN;
 	osversion_name[1] = KERN_OSRELEASE;
 	osversion_len = sizeof(osversion) - 1;
 	if(sysctl(osversion_name, 2, osversion, &osversion_len, NULL, 0) == -1)
 	    system_error("sysctl for kern.osversion failed");
+#else
+	osversion[0] = '\0';
+	osversion_len = 0;
+#endif
 
 	/*
 	 * Now parse this out.  It is expected to be of the form "x.y.z" where

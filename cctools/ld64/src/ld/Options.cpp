@@ -26,7 +26,9 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <mach/vm_prot.h>
+#if __has_include(<sys/syctl.h>)
 #include <sys/sysctl.h>
+#endif
 #include <mach-o/dyld.h>
 #include <fcntl.h>
 #include <errno.h>
@@ -1658,7 +1660,7 @@ void Options::addSection(const char* segment, const char* section, const char* p
 	::close(fd);
 
 	// record section to create
-	ExtraSection info = { segment, section, path, (uint8_t*)p, stat_buf.st_size };
+	ExtraSection info = { segment, section, path, (uint8_t*)p, (uint64_t)stat_buf.st_size };
 	fExtraSections.push_back(info);
 }
 
@@ -3810,6 +3812,7 @@ void Options::reconfigureDefaults()
 		if ( getenv("RC_ProjectName") && getenv("MACOSX_DEPLOYMENT_TARGET") ) {
 			fSDKVersion = fMacVersionMin;
 		}
+#if __has_include(<sys/sysctl.h>)
 		else {
 			int mib[2] = { CTL_KERN, KERN_OSRELEASE };
 			char kernVersStr[100];
@@ -3820,6 +3823,7 @@ void Options::reconfigureDefaults()
 				fSDKVersion = 0x000A0000 + (minor << 8);
 			}
 		}
+#endif
 	}
 	
 }
