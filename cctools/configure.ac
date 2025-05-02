@@ -172,8 +172,6 @@ esac
 AC_DEFINE(__STDC_LIMIT_MACROS)
 AC_DEFINE(__STDC_CONSTANT_MACROS)
 
-AC_SUBST([ASLIBEXECDIR], ['${libexecdir}/as'])
-
 # set PROGRAM PREFIX
 if test "$target_alias"; then
   AC_SUBST([PROGRAM_PREFIX], ['${target_alias}-'])
