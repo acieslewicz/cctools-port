@@ -3,7 +3,6 @@
 #include <string.h>
 #include <unistd.h>
 #include <stdbool.h>
-#include "stuff/port.h" /* cctools-port: find_executable() */
 
 #ifndef __APPLE__
 static const char *get_target_triple(const char *argv0) {
@@ -38,7 +37,7 @@ int main(int argc, char **argv) {
      * We try to replicate the original as driver as much as possible:
      * https://github.com/tpoechtrager/cctools-port/blob/93ffa47ee2139aba177deb07de9b6626486037ae/cctools/as/driver.c#L300
      * 
-     * clang is used for assembling as long as -Q is not given.
+     * clang is used for assembling.
     */
 
     bool some_input_files = false;
