@@ -680,7 +680,6 @@ EXECINFO_LIB
 PTHREAD_FLAGS
 DL_LIB
 PROGRAM_PREFIX
-ASLIBEXECDIR
 HOST_AR
 HOST_RANLIB
 CCASFLAGS
@@ -19125,9 +19124,6 @@ esac
 printf "%s\n" "#define __STDC_LIMIT_MACROS 1" >>confdefs.h
 
 printf "%s\n" "#define __STDC_CONSTANT_MACROS 1" >>confdefs.h
-
-
-ASLIBEXECDIR='${libexecdir}/as'
 
 
 # set PROGRAM PREFIX

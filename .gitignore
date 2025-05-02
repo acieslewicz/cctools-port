@@ -1,4 +1,11 @@
 *.o
 *.lo
+*.a
+*.la
 usage_examples/ios_toolchain/tmp
 usage_examples/ios_toolchain/target
+Makefile
+.dirstamp
+cctools/config.log
+cctools/config.status
+cctools/libtool
