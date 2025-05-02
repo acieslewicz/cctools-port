@@ -41,7 +41,6 @@ int main(int argc, char **argv) {
      * clang is used for assembling as long as -Q is not given.
     */
 
-    bool Qflag = false;
     bool some_input_files = false;
     bool oflag_specified = false;
 
@@ -57,12 +56,7 @@ int main(int argc, char **argv) {
     for (int i = 1; i < argc; ++i) {
         const char *arg = argv[i];
 
-        if (strcmp(arg, "-Q") == 0) {
-            Qflag = true;
-            continue;
-        }
-
-        if (strcmp(arg, "-q") == 0) {
+        if (strcmp(arg, "-Q") == 0 || strcmp(arg, "-q") == 0) {
             continue;
         }
 
@@ -81,20 +75,6 @@ int main(int argc, char **argv) {
         }
 
         given_args[given_i++] = argv[i];
-    }
-
-    if (Qflag) {
-        char **llvm_args = malloc(sizeof(char*) * (given_i + 2));
-        if (!llvm_args) return 1;
-
-        llvm_args[0] = "llvm-as";
-        for (int i = 0; i < given_i; ++i)
-            llvm_args[i + 1] = given_args[i];
-        llvm_args[given_i + 1] = NULL;
-
-        execvp(llvm_args[0], llvm_args);
-        perror("execvp llvm-as failed");
-        return 1;
     }
 
     int j = 0;
