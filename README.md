@@ -20,7 +20,7 @@ armv6, armv7, armv7s, arm64, arm64e,
 arm64_32 (untested), i386, x86_64, x86_64h,  
 armv6m, armv7k, armv7m and armv7em
 
-arm64e requires [Apple LLVM/Clang](https://github.com/apple/llvm-project).
+`ld64` appears to support riscv32, although its exact use case is unclear.
 
 ## SUPPORTED TARGET OPERATING SYSTEMS ##
 
