@@ -17,7 +17,6 @@ otool_SOURCES =  \
 	$(top_srcdir)/libstuff/ofile.c \
 	ofile_print.c \
 	i386_disasm.c \
-	ppc_disasm.c \
 	arm_disasm.c \
 	print_objc.c \
 	print_objc2_32bit.c \

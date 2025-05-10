@@ -44,12 +44,18 @@
 #include <tapi/tapi.h>
 #endif /* TAPI_SUPPORT */
 #include <mach-o/dyld_priv.h>
+#if 0 // ld64-port
+#include <CoreAnalytics/CoreAnalytics.h>
+#endif
 
 #include <algorithm>
 #include <set>
 #include <vector>
 #include <map>
 #include <sstream>
+#if 0 // ld64-port
+#include <xpc/xpc.h>
+#endif
 
 #include "ld.hpp"
 #include "Options.h"
@@ -262,7 +268,7 @@ Options::Options(int argc, const char* argv[])
 	  fWarnUnusedDylibs(false), fWarnUnusedDylibsForceOn(false), fWarnUnusedDylibsForceOff(false),
 	  fAdHocSign(false), fAdHocSignForceOn(false), fAdHocSignForceOff(false),
 	  fPlatformMismatchesAreWarning(false),
-	  fForceObjCRelativeMethodListsOn(false), fForceObjCRelativeMethodListsOff(false), fUseObjCRelativeMethodLists(false), fObjcSmallStubs(false), fRunHugePass(true),
+	  fForceObjCRelativeMethodListsOn(false), fForceObjCRelativeMethodListsOff(false), fUseObjCRelativeMethodLists(false), fObjcSmallStubs(false), fRunHugePass(true), fForceLdClassic(false), fLdPrimeFallback(false), fOptLevel(OptimizationLevel::unspecified),
 	  fSaveTempFiles(false), fLinkSnapshot(this), fSnapshotRequested(false), fPipelineFifo(NULL),
 	  fDependencyInfoPath(NULL), fBuildContextName(NULL), fTraceFileDescriptor(-1), fMaxDefaultCommonAlign(0),
 	  fUnalignedPointerTreatment(kUnalignedPointerIgnore),
@@ -278,6 +284,7 @@ Options::Options(int argc, const char* argv[])
 	this->parsePostCommandLineEnvironmentSettings();
 	this->reconfigureDefaults();
 	this->checkIllegalOptionCombinations();
+
 	
 	this->addDependency(depOutputFile, fOutputFile);
 	if ( fMapPath != NULL )
@@ -2697,6 +2704,10 @@ void Options::parse(int argc, const char* argv[])
 			}
 			else if ( strcmp(arg, "-ld_classic") == 0 ) {
 				// force use of ld-classic - nothing to do, because ld is the driver now
+				fForceLdClassic = true;
+			}
+			else if ( strcmp(arg, "-fallback_ldprime") == 0 ) {
+				fLdPrimeFallback = true;
 			}
 			else if ( strcmp(arg, "-ld64") == 0 ) {
 				// force use of ld-classic - nothing to do, because ld is the driver now
@@ -4348,11 +4359,28 @@ void Options::parse(int argc, const char* argv[])
 				// for now the only variant ld64 handles is -O0 which turns off deduplication pass
 				if ( strcmp(arg, "-O0") == 0 )
 					fDeDupe = false;
+
+				std::string_view val = arg;
+				val = val.substr(2);
+				if ( val == "0" )
+					fOptLevel = OptimizationLevel::O0;
+				else if ( val == "1" )
+					fOptLevel = OptimizationLevel::O1;
+				else if ( val == "2" )
+					fOptLevel = OptimizationLevel::O2;
+				else if ( val == "3" )
+					fOptLevel = OptimizationLevel::O3;
+				else if ( val == "s" || val == "size" )
+					fOptLevel = OptimizationLevel::Os;
+				else if ( val == "z" )
+					fOptLevel = OptimizationLevel::Oz;
+				else
+					fOptLevel = OptimizationLevel::unknown;
 			}
-            else if (strcmp(arg, "-objc_class_ro_signing_mismatch") == 0) {
-                const char* setting = checkForNullArgument(arg, argv[++i]);
-                fWarnOnClassROSigningMismatches = !strcasecmp(setting, "warn");
-            }
+			else if (strcmp(arg, "-objc_class_ro_signing_mismatch") == 0) {
+					const char* setting = checkForNullArgument(arg, argv[++i]);
+					fWarnOnClassROSigningMismatches = !strcasecmp(setting, "warn");
+			}
 			// put this last so that it does not interfer with other options starting with 'i'
 			else if ( strncmp(arg, "-i", 2) == 0 ) {
 				const char* colon = strchr(arg, ':');
@@ -5151,10 +5179,6 @@ void Options::reconfigureDefaults()
 			case Options::kKextBundle:
 				break;
 		}
-
-		// rdar://118247827 (Avoid CONST and DIRTY segments for ExclaveKit dylibs)
-		if ( strncmp(installPath(), "/System/ExclaveKit/", 19) == 0 )
-			fUseDataConstSegment = false;
 	}
 
 	// If we are going to be shared cache eligible, work out if we have dirty data as that requires V2
@@ -6304,6 +6328,7 @@ void Options::reconfigureDefaults()
 	}
 
 }
+
 
 static bool isModernPlatform(ld::Platform platform)
 {

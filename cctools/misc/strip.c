@@ -51,7 +51,7 @@
 #include "stuff/write64.h"
 #include "stuff/diagnostics.h"
 #ifdef TRIE_SUPPORT
-#include <mach-o/prune_trie.h>
+#include <mach-o/cctools_helpers.h>
 #endif /* TRIE_SUPPORT */
 
 /* These are set from the command line arguments */
@@ -1575,6 +1575,27 @@ struct object *object)
 		    object->dyld_exports_trie->datasize;
 	    }
 
+	    if(object->function_variants != NULL) {
+		object->input_sym_info_size +=
+		    object->function_variants->datasize;
+		object->output_sym_info_size +=
+		    object->function_variants->datasize;
+		object->output_function_variants_data =
+		    object->object_addr + object->function_variants->dataoff;
+		object->output_function_variants_data_size =
+		    object->function_variants->datasize;
+	    }
+	    if(object->function_variant_fixups != NULL) {
+		object->input_sym_info_size +=
+		    object->function_variant_fixups->datasize;
+		object->output_sym_info_size +=
+		    object->function_variant_fixups->datasize;
+		object->output_function_variant_fixups_data =
+		    object->object_addr + object->function_variant_fixups->dataoff;
+		object->output_function_variant_fixups_data_size =
+		    object->function_variant_fixups->datasize;
+	    }
+
 	    if(object->dyst != NULL){
 #ifndef NMEDIT
 		/*
@@ -1961,6 +1982,16 @@ struct object *object)
 		    offset += object->dyld_exports_trie->datasize;
 		}
 		
+		if(object->function_variants != NULL){
+		    object->function_variants->dataoff = offset;
+		    offset += object->function_variants->datasize;
+		}
+
+		if(object->function_variant_fixups != NULL){
+		    object->function_variant_fixups->dataoff = offset;
+		    offset += object->function_variant_fixups->datasize;
+		}
+
 		if(object->dyst->nlocrel != 0){
 		    object->output_loc_relocs = (struct relocation_info *)
 			(object->object_addr + object->dyst->locreloff);
@@ -3858,6 +3889,10 @@ enum bool *nlist_outofsync_with_dyldinfo)
 			    sp->seen = TRUE;
 			    len = strlen(strings + n_strx) + 1;
 			    new_ext_strsize += len;
+			    if((n_type & N_TYPE) == N_INDR && n_value != 0 && n_value != n_strx){
+			        len = strlen(strings + n_value) + 1;
+			        new_ext_strsize += len;
+			    }
 			    if((n_type & N_TYPE) == N_UNDF ||
 			       (n_type & N_TYPE) == N_PBUD)
 				new_nundefsym++;
@@ -3904,7 +3939,7 @@ enum bool *nlist_outofsync_with_dyldinfo)
 		    n_desc & REFERENCED_DYNAMICALLY))){
 		    len = strlen(strings + n_strx) + 1;
 		    new_ext_strsize += len;
-		    if((n_type & N_TYPE) == N_INDR){
+		    if((n_type & N_TYPE) == N_INDR && n_value != 0 && n_value != n_strx){
 			len = strlen(strings + n_value) + 1;
 			new_ext_strsize += len;
 		    }
@@ -3929,7 +3964,7 @@ enum bool *nlist_outofsync_with_dyldinfo)
 		     object->mh->filetype == MH_OBJECT))){
 		    len = strlen(strings + n_strx) + 1;
 		    new_ext_strsize += len;
-		    if((n_type & N_TYPE) == N_INDR){
+		    if((n_type & N_TYPE) == N_INDR && n_value != 0 && n_value != n_strx){
 			len = strlen(strings + n_value) + 1;
 			new_ext_strsize += len;
 		    }
@@ -4291,6 +4326,8 @@ enum bool *nlist_outofsync_with_dyldinfo)
 			new_symbols[inew_syms] = symbols[i];
 		    else
 			new_symbols64[inew_syms] = symbols64[i];
+		    enum bool n_strx_is_n_value = (n_strx != 0) && (n_strx == n_value);
+		    char* pstrx = p;
 		    if(n_strx != 0){
 			strcpy(p, strings + n_strx);
 			if(object->mh != NULL)
@@ -4303,14 +4340,18 @@ enum bool *nlist_outofsync_with_dyldinfo)
 		    }
 		    if((n_type & N_TYPE) == N_INDR){
 			if(n_value != 0){
-			    strcpy(p, strings + n_value);
+			    uint32_t off;
+			    if ( n_strx_is_n_value )
+			      off = (uint32_t)(pstrx - new_strings);
+			    else {
+			      strcpy(p, strings + n_value);
+			      off = (uint32_t)(p - new_strings);
+			      p += strlen(p) + 1;
+			    }
 			    if(object->mh != NULL)
-				new_symbols[inew_syms].n_value =
-				    (uint32_t)(p - new_strings);
+				new_symbols[inew_syms].n_value = off;
 			    else
-				new_symbols64[inew_syms].n_value =
-				    (uint32_t)(p - new_strings);
-			    p += strlen(p) + 1;
+				new_symbols64[inew_syms].n_value = off;
 			}
 		    }
 		    inew_syms++;
