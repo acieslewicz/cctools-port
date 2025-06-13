@@ -40,7 +40,6 @@ set(ld64_sources
 	./ld/Snapshot.cpp
 	./ld/passes/branch_island.cpp
 	./ld/passes/compact_unwind.cpp
-	./ld/passes/code_dedup.cpp
 	./ld/passes/got.cpp
 	./ld/passes/tlvp.cpp
 	./ld/passes/branch_shim.cpp
