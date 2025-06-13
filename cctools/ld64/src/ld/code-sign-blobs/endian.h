@@ -32,7 +32,12 @@
 #include <libkern/OSByteOrder.h>
 //#include <security_utilities/utilities.h>
 #include "memutils.h"
+
+#ifdef _WIN32
+#include <winsock2.h>
+#else
 #include <arpa/inet.h> // ld64-port
+#endif
 
 namespace Security {
 
