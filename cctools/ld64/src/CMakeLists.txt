@@ -63,6 +63,10 @@ set(ld64_sources
 	./ld/debugline.c
 )
 
+if(WIN32)
+	list(APPEND ld64_sources ../../mman/mman.c)
+endif()
+
 add_executable(x86_64-apple-darwin10-ld ${ld64_sources})
 target_link_libraries(x86_64-apple-darwin10-ld -lpthread -ldl)
 
