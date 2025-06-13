@@ -7,6 +7,10 @@
 #include <errno.h>
 #include <stdio.h> /* stderr */
 
+#ifdef _WIN32
+typedef unsigned int u_int;
+#endif
+
 #define CTL_KERN 1
 #define KERN_OSRELEASE 2
 
