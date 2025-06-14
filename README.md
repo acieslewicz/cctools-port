@@ -1,4 +1,6 @@
-# Apple cctools port for Linux, *BSD and Windows (Cygwin) #
+# Apple cctools port for Linux, *BSD and Windows #
+
+This currently only supports the build of ld64.
 
 Current Version: 877.8 + ld64-253.9.  
 Originally ported by [cjacker](http://ios-toolchain-based-on-clang-for-linux.googlecode.com).
@@ -7,16 +9,15 @@ Originally ported by [cjacker](http://ios-toolchain-based-on-clang-for-linux.goo
 
 **SUPPORTED OPERATING SYSTEMS:**
 
-Linux, FreeBSD, NetBSD, OpenBSD, DragonFlyBSD,  
-Windows (Cygwin), Mac OS X and iOS
+Currently Tested: Linux, Windows
+
+Untested: FreeBSD, NetBSD, OpenBSD, DragonFlyBSD, Mac OS X and iOS
 
 **SUPPORTED HOST ARCHITECTURES:**
 
-x86, x86_64, arm
+Tested: x86_64
 
-Untested, but compiles:
-
-aarch64, ppc, ppc64
+Untested: x86, arm, aarch64, ppc, ppc64
 
 ## SUPPORTED TARGET ARCHITECTURES ##
 
@@ -29,7 +30,7 @@ Mac OS X, iOS, watchOS (untested) and tvOS (untested)
 
 ## DEPENDENCIES ##
 
-`Clang 3.2+ or gcc/g++/gcc-objc 4.7+`, `automake`, `autogen` and `libtool`.
+`Clang` and `cmake 3.20+`.
 
 Optional, but recommended:
 
@@ -40,15 +41,7 @@ Optional, but recommended:
 You can find xar [here](https://github.com/mackyle/xar).  
 Do not install libxar-dev on Ubuntu, it's a different package.
 
-## INSTALLATION ##
+## Building ##
 
-* `cd cctools`
-* `./autogen.sh`
-* `./configure --prefix=<installdir> --target=<target> [--with-llvm-config=...]`
-* `make`
-* `make install`
-
-target = `i386-apple-darwin11`, `x86_64-apple-darwin11`, `arm-apple-darwin11`, ...
-
-If you get compile errors because of `unistd.h`, then please run  
-`../tools/fix_unistd_issue.sh` and restart compiling.
+* `cmake -S . -B build`
+* `cmake --build build`
