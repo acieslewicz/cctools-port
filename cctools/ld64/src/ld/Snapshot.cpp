@@ -22,6 +22,11 @@
 
 #include "compile_stubs.h"
 
+#ifdef _WIN32
+#define localtime_r(time, timer) localtime_s(timer, time)
+#define mkdir(path, mode) mkdir(path)
+#endif
+
 //#define STORE_PID_IN_SNAPSHOT 1
 
 // Well known snapshot file/directory names. These appear in the root of the snapshot.
