@@ -288,7 +288,7 @@ File<A>::File(const uint8_t* fileContent, uint64_t fileLength, const char* pth, 
 	// a "blank" stub has zero load commands
 	if ( (header->filetype() == MH_DYLIB_STUB) && (cmd_count == 0) ) {	
 		// no further processing needed
-		munmap((caddr_t)fileContent, fileLength);
+		munmap((void*)fileContent, fileLength);
 		return;
 	}
 
@@ -591,7 +591,7 @@ File<A>::File(const uint8_t* fileContent, uint64_t fileLength, const char* pth, 
 		buildExportHashTableFromSymbolTable(dynamicInfo, symbolTable, strings, fileContent);
 	
 	// unmap file
-	munmap((caddr_t)fileContent, fileLength);
+	munmap((void*)fileContent, fileLength);
 }
 
 

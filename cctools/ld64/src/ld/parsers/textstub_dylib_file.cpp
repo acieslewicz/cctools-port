@@ -683,7 +683,7 @@ File<A>::File(const uint8_t* fileContent, uint64_t fileLength, const char* path,
 	// build hash table
 	buildExportHashTable(lib);
 
-	munmap((caddr_t)fileContent, fileLength);
+	munmap((void*)fileContent, fileLength);
 }
 
 template <typename A>
