@@ -25,6 +25,9 @@ const char ldVersionString[] = "@(#)PROGRAM:ld  PROJECT:ld64-253.9\n";
 #ifdef __OpenBSD__
 #include <sys/types.h>
 #include <sys/user.h>
+#endif
+
+#if defined(_WIN32) || defined(__OpenBSD__)
 #include <sys/stat.h>
 #endif
 
