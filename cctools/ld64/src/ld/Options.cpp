@@ -22,7 +22,9 @@
  * @APPLE_LICENSE_HEADER_END@
  */
 
-
+#ifdef _WIN32
+#define _GNU_SOURCE // for vasprintf
+#endif
 #include <ctype.h> // ld64-port
 #include <sys/types.h>
 #include <sys/stat.h>
