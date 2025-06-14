@@ -19,11 +19,14 @@ add_definitions(-U__APPLE__
 	-DEMULATED_HOST_CPU_SUBTYPE=3
 	-D__STDC_LIMIT_MACROS=1
 	-D__STDC_CONSTANT_MACROS=1
-	-DHAVE_EXECINFO_H=1
 	-D__DARWIN_UNIX03
 	-DPROGRAM_PREFIX="x86_64-apple-darwin10-"
 	-DSTDC_HEADERS=1 -DHAVE_SYS_TYPES_H=1 -DHAVE_SYS_STAT_H=1 -DHAVE_STDLIB_H=1 -DHAVE_STRING_H=1 -DHAVE_MEMORY_H=1 -DHAVE_STRINGS_H=1 -DHAVE_INTTYPES_H=1 -DHAVE_STDINT_H=1 -DHAVE_UNISTD_H=1 -DHAVE_DLFCN_H=1
 	-Du_short=uint16_t)
+
+if(NOT WIN32)
+	add_definitions(-DHAVE_EXECINFO_H=1)
+endif()
 
 set(ld64_sources
 	./ld/InputFiles.cpp
@@ -68,5 +71,10 @@ if(WIN32)
 endif()
 
 add_executable(x86_64-apple-darwin10-ld ${ld64_sources})
-target_link_libraries(x86_64-apple-darwin10-ld -lpthread -ldl)
+
+if(WIN32)
+    target_link_libraries(x86_64-apple-darwin10-ld ws2_32 -ldl)
+else()
+    target_link_libraries(x86_64-apple-darwin10-ld -lpthread -ldl)
+endif()
 
