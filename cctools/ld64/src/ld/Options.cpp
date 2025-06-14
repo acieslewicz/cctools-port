@@ -32,7 +32,6 @@
 #include <fcntl.h>
 #include <errno.h>
 #include <string.h>
-#include <spawn.h>
 #include <cxxabi.h>
 #include <Availability.h>
 
@@ -5356,7 +5355,7 @@ void Options::checkIllegalOptionCombinations()
 	}
 
 	// <rdar://problem/17598404> warn if building an embedded iOS dylib for pre-iOS 8
-	// <rdar://problem/18935714> How can we suppress "ld: warning: embedded dylibs/frameworks only run on iOS 8 or laterÓ when building XCTest?
+	// <rdar://problem/18935714> How can we suppress "ld: warning: embedded dylibs/frameworks only run on iOS 8 or laterï¿½ when building XCTest?
 	if ( (fOutputKind == Options::kDynamicLibrary) && (fIOSVersionMin != ld::iOSVersionUnset) && (fDylibInstallName != NULL) ) {
 		if ( !min_iOS(ld::iOS_8_0) && (fDylibInstallName[0] == '@') && !fEncryptableForceOff )
 			warning("embedded dylibs/frameworks only run on iOS 8 or later");
