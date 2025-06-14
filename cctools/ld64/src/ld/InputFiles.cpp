@@ -74,6 +74,10 @@
 #include "MachOFileAbstraction.hpp"
 #include "Snapshot.h"
 
+#ifndef MIN
+#define MIN(a,b) ((a) < (b) ? (a) : (b))
+#endif
+
 const bool _s_logPThreads = false;
 
 namespace ld {
@@ -285,7 +289,7 @@ ld::File* InputFiles::makeFile(const Options::FileInfo& info, bool indirectDylib
 #ifndef __CYGWIN__
 			if ( (fileOffset & 0x00000FFF) == 0 ) {
 				// unmap whole file
-				munmap((caddr_t)p, info.fileLen);
+				munmap((void*)p, info.fileLen);
 				// re-map just part we need
 				p = (uint8_t*)::mmap(NULL, len, PROT_READ, MAP_FILE | MAP_PRIVATE, fd, fileOffset);
 				if ( p == (uint8_t*)(-1) )
