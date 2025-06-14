@@ -1,6 +1,10 @@
 cmake_minimum_required(VERSION 3.20)
 project(ld64)
 
+if(NOT CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+    message(FATAL_ERROR "This project requires the Clang compiler. Current compiler: ${CMAKE_CXX_COMPILER_ID}")
+endif()
+
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
