@@ -1,4 +1,4 @@
-#ifndef _WIN32
+#if !defined(_WIN32) && !defined(__linux__)
 #include_next <sys/sysctl.h>
 #else
 #ifndef __SYSCTL_H__
