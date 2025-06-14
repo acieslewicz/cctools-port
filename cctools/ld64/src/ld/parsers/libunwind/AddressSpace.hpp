@@ -94,7 +94,7 @@ class LocalAddressSpace
 {
 public:
 	
-	#if __LP64__
+	#if defined(__LP64__) || defined(_WIN64)
 		typedef uint64_t	pint_t;
 		typedef  int64_t	sint_t;
 	#else
