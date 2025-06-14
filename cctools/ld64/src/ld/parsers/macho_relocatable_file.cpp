@@ -5839,7 +5839,7 @@ unsigned long CFStringSection<A>::contentHash(const class Atom<A>* atom, const l
 			return hash;
 		case contentUnknown:
 			// <rdar://problem/14134211> For malformed CFStrings, hash to address of atom so they have unique hashes
-			return ULONG_MAX - (unsigned long)(atom);
+			return ULONG_MAX - (uintptr_t)(atom);
 	}
 	return 0;
 }
