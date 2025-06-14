@@ -39,6 +39,8 @@ void __assert_rtn(const char *func, const char *file, int line, const char *msg)
     __assert(msg, file, line, func);
 #elif defined(__NetBSD__) || defined(__OpenBSD__) || defined(__CYGWIN__)
     __assert(msg, line, file);
+#elif defined(_WIN32)
+    _assert(msg, file, (unsigned) line);
 #else
     __assert(msg, file, line);
 #endif /* __FreeBSD__ */
