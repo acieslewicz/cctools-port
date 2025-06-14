@@ -7,6 +7,11 @@
 #include <sys/types.h>
 #include <stdint.h>
 
+#ifdef _WIN32
+typedef uint32_t u_int32_t;
+typedef uint16_t u_int16_t;
+#endif
+
 typedef u_int32_t attrgroup_t;
 struct attrlist {
   u_short bitmapcount;                    /* number of attr. bit sets in list (should be 5) */
