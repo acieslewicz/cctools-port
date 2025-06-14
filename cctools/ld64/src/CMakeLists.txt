@@ -1,8 +1,13 @@
 cmake_minimum_required(VERSION 3.20)
-
 project(ld64)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fblocks -std=c++11 -Wno-long-long -Wno-import -Wno-format -Wno-deprecated -Wno-unused-variable -Wno-unused-private-field -Wno-unused-function -Wno-invalid-offsetof -Wno-int-conversion -Wno-char-subscripts -Wno-shift-negative-value")
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+
+include(CheckCXXCompilerFlag)
+check_cxx_compiler_flag("-fblocks" COMPILER_SUPPORTS_FBLOCKS)
+find_library(BLOCKS_RUNTIME_LIB BlocksRuntime)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../include)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../include/foreign)
@@ -21,7 +26,17 @@ add_definitions(-U__APPLE__
 	-D__STDC_CONSTANT_MACROS=1
 	-D__DARWIN_UNIX03
 	-DPROGRAM_PREFIX="x86_64-apple-darwin10-"
-	-DSTDC_HEADERS=1 -DHAVE_SYS_TYPES_H=1 -DHAVE_SYS_STAT_H=1 -DHAVE_STDLIB_H=1 -DHAVE_STRING_H=1 -DHAVE_MEMORY_H=1 -DHAVE_STRINGS_H=1 -DHAVE_INTTYPES_H=1 -DHAVE_STDINT_H=1 -DHAVE_UNISTD_H=1 -DHAVE_DLFCN_H=1
+	-DSTDC_HEADERS=1
+	-DHAVE_SYS_TYPES_H=1 
+	-DHAVE_SYS_STAT_H=1 
+	-DHAVE_STDLIB_H=1 
+	-DHAVE_STRING_H=1 
+	-DHAVE_MEMORY_H=1 
+	-DHAVE_STRINGS_H=1 
+	-DHAVE_INTTYPES_H=1 
+	-DHAVE_STDINT_H=1 
+	-DHAVE_UNISTD_H=1 
+	-DHAVE_DLFCN_H=1
 	-Du_short=uint16_t)
 
 if(NOT WIN32)
@@ -57,8 +72,6 @@ set(ld64_sources
 	./ld/passes/objc.cpp
 	./3rd/md5.c
 	./3rd/strlcat.c
-	./3rd/BlocksRuntime/runtime.c
-	./3rd/BlocksRuntime/data.c
 	./3rd/helper.c
 	./3rd/strlcpy.c
 	./3rd/qsort_r.c
@@ -66,11 +79,51 @@ set(ld64_sources
 	./ld/debugline.c
 )
 
+if (COMPILER_SUPPORTS_FBLOCKS AND NOT BLOCKS_RUNTIME_LIB)
+	list(APPEND ld64_sources
+		./3rd/BlocksRuntime/runtime.c
+		./3rd/BlocksRuntime/data.c
+	)
+endif()
+
 if(WIN32)
 	list(APPEND ld64_sources ../../mman/mman.c)
 endif()
 
 add_executable(x86_64-apple-darwin10-ld ${ld64_sources})
+
+target_compile_options(x86_64-apple-darwin10-ld PRIVATE
+	-Wno-long-long 
+	-Wno-import 
+	-Wno-format 
+	-Wno-deprecated 
+	-Wno-unused-variable 
+	-Wno-unused-private-field 
+	-Wno-unused-function 
+	-Wno-invalid-offsetof 
+	-Wno-int-conversion 
+	-Wno-char-subscripts 
+	-Wno-shift-negative-value
+)
+
+if(COMPILER_SUPPORTS_FBLOCKS)
+	target_compile_options(x86_64-apple-darwin10-ld PRIVATE -fblocks)
+	if(BLOCKS_RUNTIME_LIB)
+		target_link_libraries(x86_64-apple-darwin10-ld ${BLOCKS_RUNTIME_LIB})
+		message(STATUS "Blocks support enabled with system runtime: ${BLOCKS_RUNTIME_LIB}")
+	else()
+		if(WIN32)
+			target_link_options(x86_64-apple-darwin10-ld PRIVATE
+				-Wl,--defsym,__imp__NSConcreteStackBlock=_NSConcreteStackBlock
+				-Wl,--defsym,__imp__NSConcreteGlobalBlock=_NSConcreteGlobalBlock  
+				-Wl,--defsym,__imp__NSConcreteMallocBlock=_NSConcreteMallocBlock
+			)
+		endif()
+		message(STATUS "Blocks support enabled with bundled runtime")
+	endif()
+else()
+	message(STATUS "Blocks support disabled")
+endif()
 
 if(WIN32)
     target_link_libraries(x86_64-apple-darwin10-ld ws2_32 -ldl)
