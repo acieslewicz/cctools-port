@@ -135,3 +135,12 @@ else()
     target_link_libraries(ld -lpthread -ldl)
 endif()
 
+install(TARGETS ld
+    RUNTIME DESTINATION bin
+)
+
+if(WIN32)
+	install(FILES ../../mman/LICENSE.mman
+		DESTINATION .
+	)
+endif()

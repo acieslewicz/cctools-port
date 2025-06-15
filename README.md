@@ -5,6 +5,12 @@ This currently only supports the build of ld64.
 Current Version: 877.8 + ld64-253.9.  
 Originally ported by [cjacker](http://ios-toolchain-based-on-clang-for-linux.googlecode.com).
 
+## LICENSE ##
+This project is licensed under the Apple Public Source License (APSL).  
+On Windows builds, the mmap-win32 component is licensed under the MIT License.
+
+See the included LICENSE files for complete terms.
+
 ## SUPPORTED HOSTS ##
 
 **SUPPORTED OPERATING SYSTEMS:**
