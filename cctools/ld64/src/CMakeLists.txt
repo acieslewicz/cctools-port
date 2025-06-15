@@ -29,7 +29,7 @@ add_definitions(-U__APPLE__
 	-D__STDC_LIMIT_MACROS=1
 	-D__STDC_CONSTANT_MACROS=1
 	-D__DARWIN_UNIX03
-	-DPROGRAM_PREFIX="x86_64-apple-darwin10-"
+	-DPROGRAM_PREFIX=""
 	-DSTDC_HEADERS=1
 	-DHAVE_SYS_TYPES_H=1 
 	-DHAVE_SYS_STAT_H=1 
@@ -94,9 +94,9 @@ if(WIN32)
 	list(APPEND ld64_sources ../../mman/mman.c)
 endif()
 
-add_executable(x86_64-apple-darwin10-ld ${ld64_sources})
+add_executable(ld ${ld64_sources})
 
-target_compile_options(x86_64-apple-darwin10-ld PRIVATE
+target_compile_options(ld PRIVATE
 	-Wno-long-long 
 	-Wno-import 
 	-Wno-format 
@@ -111,13 +111,13 @@ target_compile_options(x86_64-apple-darwin10-ld PRIVATE
 )
 
 if(COMPILER_SUPPORTS_FBLOCKS)
-	target_compile_options(x86_64-apple-darwin10-ld PRIVATE -fblocks)
+	target_compile_options(ld PRIVATE -fblocks)
 	if(BLOCKS_RUNTIME_LIB)
-		target_link_libraries(x86_64-apple-darwin10-ld ${BLOCKS_RUNTIME_LIB})
+		target_link_libraries(ld ${BLOCKS_RUNTIME_LIB})
 		message(STATUS "Blocks support enabled with system runtime: ${BLOCKS_RUNTIME_LIB}")
 	else()
 		if(WIN32)
-			target_link_options(x86_64-apple-darwin10-ld PRIVATE
+			target_link_options(ld PRIVATE
 				-Wl,--defsym,__imp__NSConcreteStackBlock=_NSConcreteStackBlock
 				-Wl,--defsym,__imp__NSConcreteGlobalBlock=_NSConcreteGlobalBlock  
 				-Wl,--defsym,__imp__NSConcreteMallocBlock=_NSConcreteMallocBlock
@@ -130,8 +130,8 @@ else()
 endif()
 
 if(WIN32)
-    target_link_libraries(x86_64-apple-darwin10-ld ws2_32 -ldl)
+    target_link_libraries(ld ws2_32 -ldl)
 else()
-    target_link_libraries(x86_64-apple-darwin10-ld -lpthread -ldl)
+    target_link_libraries(ld -lpthread -ldl)
 endif()
 
