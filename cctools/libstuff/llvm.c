@@ -61,7 +61,7 @@ static void load_llvm(void)
 		_NSGetExecutablePath(p, &bufsize);
 	    }
 	    prefix = realpath(p, resolved_name);
-	    p = rindex(prefix, '/');
+	    p = strrchr(prefix, '/');
 	    if(p != NULL)
 		p[1] = '\0';
 	    llvm_path = makestr(prefix, "../lib/" LIB_LLVM, NULL);

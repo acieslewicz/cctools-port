@@ -177,7 +177,7 @@ char *str)
 	if (*p){
 		prefix = realpath(p, resolved_name);
 		if (prefix){
-			p = rindex(prefix, '/');
+			p = strrchr(prefix, '/');
 			if(p != NULL)
 				p[1] = '\0';
 		} else{
