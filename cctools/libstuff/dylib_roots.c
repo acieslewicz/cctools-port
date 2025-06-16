@@ -28,10 +28,9 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <sys/param.h>
-#ifndef __OPENSTEP__
+#if !defined(__OPENSTEP__) && !defined(_WIN32) 
 #include <fts.h>
 #endif
-#include <sys/errno.h>
 #include <errno.h> /* cctools-port */
 #include "stuff/bool.h"
 #include "stuff/SymLoc.h"
@@ -116,7 +115,7 @@ find_dylib_in_root(
 char *install_name,
 const char *root)
 {
-#ifndef __OPENSTEP__
+#if !defined(__OPENSTEP__) && !defined(_WIN32)
     char *base_name, start[MAXPATHLEN + 1], *image_file_name;
     char const *paths[2];
     FTS *fts;
@@ -206,7 +205,7 @@ const char *root)
 	    return(NULL);
 	}
 
-#endif /* !defined(__OPENSTEP___) */
+#endif /* !defined(__OPENSTEP___) && !defined(_WIN32) */
 
 	return(NULL);
 }
