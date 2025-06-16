@@ -15,7 +15,7 @@ add_library(stuff STATIC
     dylib_table.c
     port.c
     errors.c
-    execute.c
+    #execute.c
     fatal_arch.c
     fatals.c
     get_arch_from_host.c
@@ -39,7 +39,7 @@ add_library(stuff STATIC
     SymLoc.c
     unix_standard_mode.c
     version_number.c
-    writeout.c
+    #writeout.c
     coff_bytesex.c
 )
 
