@@ -1,7 +1,14 @@
 cmake_minimum_required(VERSION 3.20)
 project(misc)
 
-add_executable(lipo lipo.c)
+
+set(LIPO_SOURCES lipo.c)
+
+if(WIN32)
+	list(APPEND LIPO_SOURCES ../mman/mman.c)
+endif()
+
+add_executable(lipo ${LIPO_SOURCES})
 
 target_include_directories(lipo PRIVATE
 	${CMAKE_CURRENT_SOURCE_DIR}/../include
