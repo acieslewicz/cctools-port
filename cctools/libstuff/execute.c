@@ -25,7 +25,9 @@
 #include <mach/mach.h> /* first to get rid of pre-comp warning */
 #include "stdio.h"
 #include <signal.h>
+#ifndef _WIN32
 #include <sys/wait.h>
+#endif
 #include <sys/file.h>
 #include <errno.h>
 #include "stuff/errors.h"
