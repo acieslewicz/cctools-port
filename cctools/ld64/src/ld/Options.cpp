@@ -4258,11 +4258,11 @@ void Options::reconfigureDefaults()
 		case CPU_TYPE_ARM:
 			switch ( fOutputKind ) {
 				case Options::kDynamicExecutable:
-				case Options::kDynamicLibrary:
 				case Options::kDynamicBundle:
 					// user land code is limited to low 1GB
 					fMaxAddress = 0x2FFFFFFF;
 					break;
+				case Options::kDynamicLibrary:
 				case Options::kStaticExecutable:
 				case Options::kObjectFile:
 				case Options::kDyld:
