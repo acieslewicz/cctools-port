@@ -1,11 +1,39 @@
 cmake_minimum_required(VERSION 3.20)
-project(cctools-port)
+project(cctools)
 
 if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
     set(CMAKE_INSTALL_PREFIX "${CMAKE_BINARY_DIR}/install" CACHE PATH "Install prefix" FORCE)
 endif()
 
-add_subdirectory(cctools)
+set(PACKAGE_NAME "cctools")
+set(PACKAGE_VERSION "877.8")
+
+if (CMAKE_SYSTEM_PROCESSOR MATCHES "powerpc")
+	set(EMULATED_HOST_CPU_TYPE 18)
+	set(EMULATED_HOST_CPU_SUBTYPE 100)
+elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "powerpc64.*")
+	set(EMULATED_HOST_CPU_TYPE 16777234)
+	set(EMULATED_HOST_CPU_SUBTYPE 0)
+elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "i.86")
+	set(EMULATED_HOST_CPU_TYPE 7)
+	set(EMULATED_HOST_CPU_SUBTYPE 10)
+elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "(x86_64|amd64)")
+	set(EMULATED_HOST_CPU_TYPE 16777223)
+	set(EMULATED_HOST_CPU_SUBTYPE 3)
+elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "(arm64.*|aarch64)")
+	set(EMULATED_HOST_CPU_TYPE 16777228)
+	set(EMULATED_HOST_CPU_SUBTYPE 0)
+elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "arm.*")
+	set(EMULATED_HOST_CPU_TYPE 12)
+	set(EMULATED_HOST_CPU_SUBTYPE 0)
+else()
+	message(FATAL_ERROR "Unsupported target CPU: ${CMAKE_SYSTEM_PROCESSOR}")
+endif()
+
+
+add_subdirectory(cctools/libstuff)
+add_subdirectory(cctools/ld64/src)
+add_subdirectory(cctools/misc)
 
 install(FILES 
     cctools/APPLE_LICENSE
