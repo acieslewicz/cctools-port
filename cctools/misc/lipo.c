@@ -983,9 +983,11 @@ create_fat(void)
 	    system_fatal("can't close output file: %s", rename_file);
 
 	#ifdef _WIN32
-	// rename on windows will not overwrite existing files
-	if(unlink(output_file) == -1)
-		system_error("can't remove existing output file: %s", output_file);
+		// rename on windows will not overwrite existing files
+		if(access(output_file, F_OK) == 0) {
+			if(unlink(output_file) == -1)
+				system_error("can't remove existing output file: %s", output_file);
+		}
 	#endif
 
 	if(rename(rename_file, output_file) == -1)
