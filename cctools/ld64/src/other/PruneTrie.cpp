@@ -92,7 +92,7 @@ prune_trie(
 		asprintf(&msg, "new trie is larger (%d) than original (%d)", *trie_new_size, trie_start_size);
 		return msg;
 	}
-	memcpy(trie_start, &newExportTrieBytes[0], *trie_new_size);
+	memcpy(trie_start, newExportTrieBytes.data(), *trie_new_size);
 	bzero(trie_start+*trie_new_size, trie_start_size - *trie_new_size);
 	
 	// success
