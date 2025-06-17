@@ -42,6 +42,8 @@ typedef char bool;
 #define false (bool)0
 #endif
 
+#include <stdint.h>
+
 #if defined(__cplusplus)
 extern "C" {
 #endif
@@ -120,7 +122,7 @@ BLOCK_EXPORT void _Block_object_dispose(const void *object, const int flags);
 /* Other support functions */
 
 /* Runtime entry to get total size of a closure */
-BLOCK_EXPORT unsigned long int Block_size(void *block_basic);
+BLOCK_EXPORT uintptr_t Block_size(void *block_basic);
 
 
 
@@ -135,14 +137,14 @@ BLOCK_EXPORT void * _NSConcreteWeakBlockVariable[32];
 
 
 /* the intercept routines that must be used under GC */
-BLOCK_EXPORT void _Block_use_GC( void *(*alloc)(const unsigned long, const bool isOne, const bool isObject),
+BLOCK_EXPORT void _Block_use_GC( void *(*alloc)(const uintptr_t, const bool isOne, const bool isObject),
                                   void (*setHasRefcount)(const void *, const bool),
                                   void (*gc_assign_strong)(void *, void **),
                                   void (*gc_assign_weak)(const void *, void *),
-                                  void (*gc_memmove)(void *, void *, unsigned long));
+                                  void (*gc_memmove)(void *, void *, uintptr_t));
 
 /* earlier version, now simply transitional */
-BLOCK_EXPORT void _Block_use_GC5( void *(*alloc)(const unsigned long, const bool isOne, const bool isObject),
+BLOCK_EXPORT void _Block_use_GC5( void *(*alloc)(const uintptr_t, const bool isOne, const bool isObject),
                                   void (*setHasRefcount)(const void *, const bool),
                                   void (*gc_assign_strong)(void *, void **),
                                   void (*gc_assign_weak)(const void *, void *));
