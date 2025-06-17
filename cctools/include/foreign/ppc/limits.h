@@ -71,7 +71,7 @@
 #define	INT_MAX		2147483647	/* max value for an int */
 #define	INT_MIN		(-2147483647-1)	/* min value for an int */
 
-#ifdef __LP64__
+#if defined(__LP64__) && !defined(_WIN64)
 #define	ULONG_MAX	0xffffffffffffffffUL	/* max unsigned long */
 #define	LONG_MAX	0x7fffffffffffffffL	/* max signed long */
 #define	LONG_MIN	(-0x7fffffffffffffffL-1) /* min signed long */
@@ -86,7 +86,7 @@
 #define	LLONG_MIN	(-0x7fffffffffffffffLL-1) /* min signed long long */
 
 #if !defined(_ANSI_SOURCE)
-#ifdef __LP64__
+#if defined(__LP64__) && !defined(_WIN64)#ifdef __LP64__
 #define LONG_BIT	64
 #else /* !__LP64__ */
 #define LONG_BIT	32

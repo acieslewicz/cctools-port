@@ -266,7 +266,7 @@ _STRUCT_PPC_FLOAT_STATE
 #define _STRUCT_PPC_VECTOR_STATE	struct __darwin_ppc_vector_state
 _STRUCT_PPC_VECTOR_STATE
 {
-#if defined(__LP64__)
+#if defined(__LP64__) || defined(_WIN64)
 	unsigned int	__save_vr[32][4];
 	unsigned int	__save_vscr[4];
 #else
@@ -281,7 +281,7 @@ _STRUCT_PPC_VECTOR_STATE
 #define _STRUCT_PPC_VECTOR_STATE	struct ppc_vector_state
 _STRUCT_PPC_VECTOR_STATE
 {
-#if defined(__LP64__)
+#if defined(__LP64__) || defined(_WIN64)
 	unsigned int	save_vr[32][4];
 	unsigned int	save_vscr[4];
 #else
@@ -319,7 +319,7 @@ _STRUCT_PPC_VECTOR_STATE
 #define _STRUCT_PPC_EXCEPTION_STATE	struct __darwin_ppc_exception_state
 _STRUCT_PPC_EXCEPTION_STATE
 {
-#if defined(__LP64__)
+#if defined(__LP64__) || defined(_WIN64)
 	unsigned int __dar;		/* Fault registers for coredump */
 	unsigned int __dsisr;
 	unsigned int __exception;	/* number of powerpc exception taken */
@@ -337,7 +337,7 @@ _STRUCT_PPC_EXCEPTION_STATE
 #define _STRUCT_PPC_EXCEPTION_STATE	struct ppc_exception_state
 _STRUCT_PPC_EXCEPTION_STATE
 {
-#if defined(__LP64__)
+#if defined(__LP64__) || defined(_WIN64)
 	unsigned int dar;		/* Fault registers for coredump */
 	unsigned int dsisr;
 	unsigned int exception;		/* number of powerpc exception taken */
@@ -359,7 +359,7 @@ _STRUCT_PPC_EXCEPTION_STATE
 _STRUCT_PPC_EXCEPTION_STATE64
 {
 	unsigned long long __dar;	/* Fault registers for coredump */
-#if defined(__LP64__)
+#if defined(__LP64__) || defined(_WIN64)
 	unsigned int  __dsisr;
 	unsigned int  __exception;	/* number of powerpc exception taken */
 	unsigned int  __pad1[4];	/* space in PCB "just in case" */
@@ -374,7 +374,7 @@ _STRUCT_PPC_EXCEPTION_STATE64
 _STRUCT_PPC_EXCEPTION_STATE64
 {
 	unsigned long long dar;		/* Fault registers for coredump */
-#if defined(__LP64__)
+#if defined(__LP64__) || defined(_WIN64)
 	unsigned int  dsisr;
 	unsigned int  exception;	/* number of powerpc exception taken */
 	unsigned int  pad1[4];		/* space in PCB "just in case" */

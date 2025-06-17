@@ -62,7 +62,7 @@
 #define	SHARED_TEXT_REGION_SIZE		0x10000000
 #define	SHARED_DATA_REGION_SIZE		0x10000000
 
-#if !defined(__LP64__)
+#if !defined(__LP64__) && !defined(_WIN64)
 
 #define	SHARED_LIBRARY_SERVER_SUPPORTED
 

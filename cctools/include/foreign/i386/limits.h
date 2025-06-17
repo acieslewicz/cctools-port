@@ -71,26 +71,26 @@
 #define	INT_MAX		2147483647	/* max value for an int */
 #define	INT_MIN		(-2147483647-1)	/* min value for an int */
 
-#ifdef __LP64__
+#ifdef defined(__LP64__) && !defined(_WIN64)
 #define	ULONG_MAX	0xffffffffffffffffUL	/* max unsigned long */
 #define	LONG_MAX	0x7fffffffffffffffL	/* max signed long */
 #define	LONG_MIN	(-0x7fffffffffffffffL-1) /* min signed long */
-#else /* !__LP64__ */
+#else /* !__LP64__ || _WIN64 */
 #define	ULONG_MAX	0xffffffffUL	/* max unsigned long */
 #define	LONG_MAX	2147483647L	/* max signed long */
 #define	LONG_MIN	(-2147483647L-1) /* min signed long */
-#endif /* __LP64__ */
+#endif /* __LP64__ && !_WIN64 */
 
 #define	ULLONG_MAX	0xffffffffffffffffULL	/* max unsigned long long */
 #define	LLONG_MAX	0x7fffffffffffffffLL	/* max signed long long */
 #define	LLONG_MIN	(-0x7fffffffffffffffLL-1) /* min signed long long */
 
 #if !defined(_ANSI_SOURCE)
-#ifdef __LP64__
+#if defined(__LP64__) && !defined(_WIN64)
 #define LONG_BIT	64
-#else /* !__LP64__ */
+#else /* !__LP64__ || _WIN64 */
 #define LONG_BIT	32
-#endif /* __LP64__ */
+#endif /* __LP64__ && !_WIN64 */
 #define	SSIZE_MAX	LONG_MAX	/* max value for a ssize_t */
 #define WORD_BIT	32
 

@@ -36,7 +36,7 @@
 #include <machine/_types.h>
 
 /* pthread opaque structures */
-#if defined(__LP64__)
+#if defined(__LP64__) || defined(_WIN64)
 #define __PTHREAD_SIZE__           1168
 #define __PTHREAD_ATTR_SIZE__      56
 #define __PTHREAD_MUTEXATTR_SIZE__ 8
@@ -84,8 +84,10 @@ struct _opaque_pthread_t { long __sig; struct __darwin_pthread_handler_rec  *__c
 #ifdef __GNUG__
 #define __DARWIN_NULL __null
 #else /* ! __GNUG__ */
-#ifdef __LP64__
+#if defined(__LP64__)
 #define __DARWIN_NULL (0L)
+#elif defined(_WIN64)
+#define __DARWIN_NULL (0LL)
 #else /* !__LP64__ */
 #define __DARWIN_NULL 0
 #endif /* __LP64__ */
@@ -118,7 +120,11 @@ typedef struct _opaque_pthread_cond_t
 			__darwin_pthread_cond_t; /* [???] Used for pthreads */
 typedef struct _opaque_pthread_condattr_t
 			__darwin_pthread_condattr_t; /* [???] Used for pthreads */
-typedef unsigned long	__darwin_pthread_key_t;	/* [???] Used for pthreads */
+#if defined(_WIN64)
+typedef unsigned long long	__darwin_pthread_key_t;	/* [???] Used for pthreads */
+#else
+typedef unsigned long	        __darwin_pthread_key_t;	/* [???] Used for pthreads */
+#endif
 typedef struct _opaque_pthread_mutex_t
 			__darwin_pthread_mutex_t; /* [???] Used for pthreads */
 typedef struct _opaque_pthread_mutexattr_t

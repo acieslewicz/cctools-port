@@ -94,7 +94,7 @@ typedef	long long		int64_t;
 #endif
 typedef	unsigned long long	u_int64_t;
 
-#if __LP64__
+#if defined(__LP64__) || defined(_WIN64)#if __LP64__
 typedef int64_t			register_t;
 #else
 typedef int32_t			register_t;
@@ -106,7 +106,11 @@ typedef __darwin_intptr_t	intptr_t;
 #endif
 #ifndef _UINTPTR_T
 #define _UINTPTR_T
+#if defined(_WIN64)
+typedef unsigned long long	uintptr_t;
+#else
 typedef unsigned long		uintptr_t;
+#endif
 #endif
 
 #if !defined(_ANSI_SOURCE) && (!defined(_POSIX_C_SOURCE) || defined(_DARWIN_C_SOURCE))

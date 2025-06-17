@@ -46,11 +46,17 @@ extern char *getsectdatafromFramework(
     const char *sectname,
     unsigned long *size);
 
+#if defined(_WIN64)
+extern unsigned long long get_end(void);
+extern unsigned long long get_etext(void);
+extern unsigned long long get_edata(void);
+#else
 extern unsigned long get_end(void);
 extern unsigned long get_etext(void);
 extern unsigned long get_edata(void);
+#endif
 
-#ifndef __LP64__
+#if !defined(__LP64__) && !defined(_WIN64)
 /*
  * Runtime interfaces for 32-bit Mach-O programs.
  */

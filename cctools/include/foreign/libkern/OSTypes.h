@@ -45,7 +45,7 @@ typedef signed int         SInt;
 
 typedef unsigned char 	   UInt8;
 typedef unsigned short 	   UInt16;
-#if __LP64__
+#if defined(__LP64__) || defined(_WIN64)
 typedef unsigned int       UInt32;
 #else
 typedef unsigned long      UInt32;
@@ -67,7 +67,7 @@ typedef	struct UnsignedWide {
 
 typedef signed char 	   SInt8;
 typedef signed short 	   SInt16;
-#if __LP64__
+#if defined(__LP64__) || defined(_WIN64)
 typedef signed int         SInt32;
 #else
 typedef signed long        SInt32;

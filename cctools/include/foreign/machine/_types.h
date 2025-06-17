@@ -25,12 +25,12 @@
  * 
  * @APPLE_OSREFERENCE_LICENSE_HEADER_END@
  */
-#if defined(__FreeBSD__) || defined(__OpenBSD__) || defined(__CYGWIN__)
-#include_next <machine/_types.h>
-#else
 #ifndef _BSD_MACHINE__TYPES_H_
 #define _BSD_MACHINE__TYPES_H_
 
+#if defined(__FreeBSD__) || defined(__OpenBSD__) || defined(__CYGWIN__)
+#include_next <machine/_types.h>
+#else
 #if defined (__ppc__) || defined (__ppc64__)
 #include "ppc/_types.h"
 #elif defined (__i386__) || defined(__x86_64__)
@@ -40,5 +40,20 @@
 #else
 #error architecture not supported
 #endif
-#endif /* _BSD_MACHINE__TYPES_H_ */
 #endif /* __FreeBSD__ || __OpenBSD__ || __CYGWIN__ */
+
+#if defined(_WIN64)
+typedef long long LONGLONG_;
+typedef unsigned long long ULONGLONG_;
+typedef LONGLONG_ INT_PTR_;
+typedef ULONGLONG_ UINT_PTR_;
+typedef LONGLONG_ LONG_PTR_;
+typedef ULONGLONG_ ULONG_PTR_;
+#else
+typedef int INT_PTR_;
+typedef unsigned int UINT_PTR_;
+typedef long LONG_PTR_;
+typedef unsigned long ULONG_PTR_;
+#endif
+
+#endif /* _BSD_MACHINE__TYPES_H_ */

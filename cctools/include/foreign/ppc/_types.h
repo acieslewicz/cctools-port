@@ -48,7 +48,7 @@ typedef unsigned int		__uint32_t;
 typedef __INT64_TYPE__          __int64_t;
 typedef unsigned __INT64_TYPE__ __uint64_t;
 #else
-#if __SIZEOF_POINTER__ == 8 && !defined(__CYGWIN__)
+#if __SIZEOF_POINTER__ == 8 && !defined(__CYGWIN__) && !defined(_WIN64)
 typedef long int                __int64_t;
 typedef unsigned long int       __uint64_t;
 #else
@@ -57,7 +57,11 @@ typedef unsigned long long int  __uint64_t;
 #endif
 #endif
 
-typedef long			__darwin_intptr_t;
+#if defined(_WIN64)
+typedef long long               __darwin_intptr_t;
+#else
+typedef long                    __darwin_intptr_t;
+#endif
 typedef unsigned int		__darwin_natural_t;
 
 /*
@@ -102,7 +106,11 @@ typedef int			__darwin_ptrdiff_t;	/* ptr1 - ptr2 */
 #if defined(__GNUC__) && defined(__SIZE_TYPE__)
 typedef __SIZE_TYPE__		__darwin_size_t;	/* sizeof() */
 #else
+#if defined(_WIN64)
+typedef unsigned long long      __darwin_size_t;	/* sizeof() */
+#else
 typedef unsigned long		__darwin_size_t;	/* sizeof() */
+#endif
 #endif
 
 #if (__GNUC__ > 2)
@@ -125,9 +133,15 @@ typedef __WINT_TYPE__		__darwin_wint_t;	/* wint_t */
 typedef __darwin_ct_rune_t	__darwin_wint_t;	/* wint_t */
 #endif
 
-typedef unsigned long		__darwin_clock_t;	/* clock() */
 typedef __uint32_t		__darwin_socklen_t;	/* socklen_t (duh) */
+#if defined(_WIN64)
+typedef unsigned long long	__darwin_clock_t;	/* clock() */
+typedef long long		__darwin_ssize_t;	/* byte count or error */
+typedef long long		__darwin_time_t;	/* time() */
+#else
+typedef unsigned long		__darwin_clock_t;	/* clock() */
 typedef long			__darwin_ssize_t;	/* byte count or error */
 typedef long			__darwin_time_t;	/* time() */
+#endif
 
 #endif	/* _BSD_PPC__TYPES_H_ */

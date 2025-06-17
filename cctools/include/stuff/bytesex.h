@@ -76,7 +76,7 @@ enum byte_sex {
 		      (((a) >> 8) & 0x0000ff00) | \
 	 ((unsigned int)(a) >> 24) )
 
-#ifndef __LP64__
+#if !defined(__LP64__) && !defined(_WIN64)
 #define SWAP_LONG(a) ( ((a) << 24) | \
 		      (((a) << 8) & 0x00ff0000) | \
 		      (((a) >> 8) & 0x0000ff00) | \

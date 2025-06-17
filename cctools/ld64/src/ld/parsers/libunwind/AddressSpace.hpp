@@ -121,7 +121,7 @@ LocalAddressSpace sThisAddress;
 
 inline uintptr_t LocalAddressSpace::getP(pint_t addr)
 {
-#if __LP64__
+#if defined(__LP64__) || defined(_WIN64)
 	return get64(addr);
 #else
 	return get32(addr);

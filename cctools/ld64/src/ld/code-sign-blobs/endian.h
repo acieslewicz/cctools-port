@@ -47,7 +47,7 @@ namespace Security {
 // You can use these functions directly, but consider using
 // the higher-level constructs below instead.
 //
-#ifdef __LP64__
+#if defined(__LP64__) || defined(_WIN64)
 static inline unsigned long h2n(unsigned long v) { return OSSwapHostToBigInt64(v); }
 static inline unsigned long n2h(unsigned long v) { return OSSwapBigToHostInt64(v); }
 static inline unsigned long flip(unsigned long v) { return OSSwapInt64(v); }
