@@ -981,6 +981,13 @@ create_fat(void)
 	}
 	if(close(fd) == -1)
 	    system_fatal("can't close output file: %s", rename_file);
+
+	#ifdef _WIN32
+	// rename on windows will not overwrite existing files
+	if(unlink(output_file) == -1)
+		system_error("can't remove existing output file: %s", output_file);
+	#endif
+
 	if(rename(rename_file, output_file) == -1)
 	    system_error("can't move temporary file: %s to file: %s",
 			 output_file, rename_file);
