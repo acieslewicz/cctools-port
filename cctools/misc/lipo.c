@@ -1043,8 +1043,11 @@ struct input_file *input)
 	if((stat_buf.st_mode & S_IFREG) == S_IFREG && size == 0)
 	    addr = NULL;
 	else
-	    addr = mmap(0, size, PROT_READ|PROT_WRITE, MAP_FILE|MAP_PRIVATE,
-			fd, 0);
+	    #ifdef _WIN32
+			addr = mmap(0, size, PROT_READ, MAP_FILE|MAP_PRIVATE, fd, 0);
+		#else
+			addr = mmap(0, size, PROT_READ|PROT_WRITE, MAP_FILE|MAP_PRIVATE, fd, 0);
+		#endif
 	if((intptr_t)addr == -1)
 	    system_fatal("can't map input file: %s", input->name);
 
