@@ -11,6 +11,10 @@
 
 #include_next <stdio.h>
 
+#ifndef O_BINARY
+#define O_BINARY 0 /* Non Windows */
+#endif
+
 #ifdef __CYGWIN__
 #pragma pop_macro("__STRICT_ANSI__")
 #endif /* __CYGWIN__ */
