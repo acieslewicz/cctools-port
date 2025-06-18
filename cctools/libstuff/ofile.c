@@ -852,7 +852,7 @@ enum bool archives_with_fat_objects)
 	memset(ofile, '\0', sizeof(struct ofile));
 
 	/* Open the file and map it in */
-	if((fd = open(file_name, O_RDONLY)) == -1){
+	if((fd = open(file_name, O_RDONLY | O_BINARY)) == -1){
 #ifdef OFI
 	    return(NSObjectFileImageAccess);
 #else

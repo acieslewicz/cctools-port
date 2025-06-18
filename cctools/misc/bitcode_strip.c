@@ -1622,7 +1622,7 @@ struct object *object)
 	input_file = makestr("/tmp/bitcode_strip.XXXXXX", NULL);
 	input_file = mktemp(input_file);
 
-	if((fd = open(input_file, O_WRONLY|O_CREAT, 0600)) < 0)
+	if((fd = open(input_file, O_WRONLY|O_CREAT| O_BINARY, 0600)) < 0)
 	    system_fatal("can't open temporary file: %s", input_file);
 
 	if(write(fd, object->object_addr, object->object_size) !=

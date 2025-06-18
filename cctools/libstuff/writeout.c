@@ -147,7 +147,7 @@ uint32_t *throttle)
 	else
 	    fsync = 0;
         if(output != NULL){
-            if((fd = open(output, O_WRONLY|O_CREAT|O_TRUNC|fsync, mode)) == -1){
+            if((fd = open(output, O_WRONLY|O_CREAT|O_TRUNC|fsync| O_BINARY, mode)) == -1){
                 system_error("can't create output file: %s", output);
                 goto cleanup;
             }

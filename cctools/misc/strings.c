@@ -251,7 +251,7 @@ char **envp)
 	    for(i = 1; i < argc; i++){
 		if(argv[i][0] != '-' || rest_args_files == TRUE){
 		    if(flags.treat_as_data == TRUE){
-			if(freopen(argv[i], "r", stdin) == NULL)
+			if(freopen(argv[i], "rb", stdin) == NULL)
 			    system_error("can't open: %s", argv[i]);
 			rewind(stdin);
 			find(UINT_MAX, &flags);

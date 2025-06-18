@@ -127,7 +127,7 @@ char **envp)
 			arch_usage();
 			usage();
 		    }
-		    if((fd = open(argv[i+2], O_RDONLY, 0)) == -1)
+		    if((fd = open(argv[i+2], O_RDONLY| O_BINARY, 0)) == -1)
 			system_fatal("can't open file: %s", argv[i+2]);
 		    if(fstat(fd, &stat_buf) == -1)
 			system_fatal("can't stat file: %s", argv[i+2]);

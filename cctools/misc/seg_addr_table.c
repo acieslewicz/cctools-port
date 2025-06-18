@@ -1592,7 +1592,7 @@ char *output_file_name)
 {
     FILE *out_fp;
 
-	out_fp = fopen(output_file_name, "w");
+	out_fp = fopen(output_file_name, "wb");
 	if(out_fp == NULL)
 	    system_fatal("can't create output file: %s\n", output_file_name);
 	return(out_fp);

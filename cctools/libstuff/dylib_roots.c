@@ -148,7 +148,7 @@ const char *root)
 
 	paths[0] = start;
 	paths[1] = NULL;
-	fts = fts_open((char * const *)paths, FTS_PHYSICAL, NULL);
+	fts = fts_open((char * const *)paths, FTS_PHYSICAL | O_BINARY, NULL);
 	if(fts == NULL){
 #ifdef DEBUG
 	    printf("fts_open() failed for: %s (%s, errno = %d)\n", start,

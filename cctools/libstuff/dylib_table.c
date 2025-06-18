@@ -60,7 +60,7 @@ char *argument) /* -dylib_file argument or "dylib table" */
     char *file_addr, *endp;
     struct dylib_table *new_dylib_table;
 
-	if((fd = open(file_name, O_RDONLY, 0)) == -1)
+	if((fd = open(file_name, O_RDONLY | O_BINARY, 0)) == -1)
 	    system_fatal("Can't open: %s for %s %s",
 		    file_name, flag, argument);
 	if(fstat(fd, &stat_buf) == -1)
@@ -148,7 +148,7 @@ char **file_name)
     FILE *fp;
 
 	*file_name = allocate(MAXPATHLEN+1);
-	fp = popen("/bin/echo ~rc/Data/DylibTable", "r");
+	fp = popen("/bin/echo ~rc/Data/DylibTable", "rb");
 	if(fp == NULL)
 	    fatal("must use -dylib_table (popen failed on \"/bin/echo "
 		  "~rc/Data/DylibTable\"");

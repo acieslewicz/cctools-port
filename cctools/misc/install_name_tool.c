@@ -411,7 +411,7 @@ char *input)
 
 	host_byte_sex = get_host_byte_sex();
 
-	fd = open(input, O_WRONLY, 0);
+	fd = open(input, O_WRONLY| O_BINARY, 0);
 	if(fd == -1)
 	    system_error("can't open input file: %s for writing", input);
 

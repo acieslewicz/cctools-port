@@ -249,7 +249,7 @@ map_input(void)
     struct symseg_command *ssp;
 
 	/* Open the input file and map it in */
-	if((fd = open(input, O_RDONLY)) == -1)
+	if((fd = open(input, O_RDONLY | O_BINARY)) == -1)
 	    system_fatal("can't open input file: %s", input);
 	if(fstat(fd, &stat_buf) == -1)
 	    system_fatal("Can't stat input file: %s", input);
@@ -460,7 +460,7 @@ uint32_t size)
 			  "end of the file) in: %s", segname,
 			  sectname, input);
 		 if((fd = open(ep->filename, O_WRONLY | O_CREAT |
-			       O_TRUNC, 0666)) == -1)
+			       O_TRUNC | O_BINARY, 0666)) == -1)
 		    system_fatal("can't create: %s", ep->filename);
 		 if(write(fd, (char *)input_addr + offset,
 			 size) != (int)size)
@@ -877,7 +877,7 @@ replace_sections(void)
 	 * commands, then the segments with any new sections and finally
 	 * the link edit info.
 	 */
-	if((outfd = open(output, O_CREAT | O_WRONLY | O_TRUNC ,input_mode)) 
+	if((outfd = open(output, O_CREAT | O_WRONLY | O_TRUNC | O_BINARY ,input_mode)) 
 	   == -1)
 	    system_fatal("can't create output file: %s", output);
 
@@ -895,7 +895,7 @@ replace_sections(void)
 			sp = sects[k + j].sp;
 			rp = sects[k + j].rp;
 			if(rp != NULL){
-			    if((sectfd = open(rp->filename, O_RDONLY)) == -1)
+			    if((sectfd = open(rp->filename, O_RDONLY | O_BINARY)) == -1)
 				system_fatal("can't open file: %s to replace "
 					 "section (%s,%s) with", rp->filename,
 					 rp->segname, rp->sectname);
@@ -950,7 +950,7 @@ replace_sections(void)
 			sp64 = sects[k + j].sp64;
 			rp = sects[k + j].rp;
 			if(rp != NULL){
-			    if((sectfd = open(rp->filename, O_RDONLY)) == -1)
+			    if((sectfd = open(rp->filename, O_RDONLY | O_BINARY)) == -1)
 				system_fatal("can't open file: %s to replace "
 					 "section (%s,%s) with", rp->filename,
 					 rp->segname, rp->sectname);

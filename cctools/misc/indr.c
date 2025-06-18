@@ -399,7 +399,7 @@ enum bool nflag)
 	    symbol_hash[i] = NULL;
 	memset(&indr_list, '\0', sizeof(struct list));
 
-	if((list = fopen(list_filename, "r")) == NULL)
+	if((list = fopen(list_filename, "rb")) == NULL)
 	    system_fatal("can't open: %s", list_filename);
 
 	io = NULL;

@@ -99,7 +99,7 @@ enum bool no_error_if_missing)
     } else {  
         strcpy(buf, viewMap);
     }
-    if (!(file = fopen(buf, "r"))) {
+    if (!(file = fopen(buf, "rb"))) {
         system_error("symLocForDylib(): Can't fopen %s", buf);
         return NULL;
     }
@@ -154,7 +154,7 @@ enum bool no_error_if_missing)
 
         // open file
         strcpy(v, dp->d_name);
-        if (!(file = fopen(dylibList, "r"))) {
+        if (!(file = fopen(dylibList, "rb"))) {
             system_error("symLocForDylib(): Can't fopen %s", dylibList);
 	    if(closedir(dirp) != 0)
 		system_error("closedir() failed");
@@ -209,7 +209,7 @@ enum bool no_error_if_missing)
 
             // open file
             strcpy(v, dp->d_name);
-            if (!(file = fopen(installNameList, "r"))) {
+            if (!(file = fopen(installNameList, "rb"))) {
                 system_error("symLocForDylib(): Can't fopen %s", installNameList);
                 if(closedir(dirp) != 0)
                     system_error("closedir() failed");

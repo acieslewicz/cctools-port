@@ -687,7 +687,7 @@ enum bool all_archs)
 		 * the current working directory to that path.
 		 */
 		if((p = rindex(output_file, '/')) != NULL){
-		    if((cwd_fd = open(".", O_RDONLY, 0)) == -1){
+		    if((cwd_fd = open(".", O_RDONLY | O_BINARY, 0)) == -1){
 			system_error("can't open current working directory");
 			goto strip_file_return;
 		    }
@@ -2660,7 +2660,7 @@ char *dfile)
     struct stat stat_buf;
     char *strings, *p;
 
-	if((fd = open(dfile, O_RDONLY)) < 0){
+	if((fd = open(dfile, O_RDONLY | O_BINARY)) < 0){
 	    system_error("can't open: %s", dfile);
 	    return;
 	}
@@ -4075,7 +4075,7 @@ struct object *object)
 	input_file = makestr("/tmp/strip.XXXXXX", NULL);
 	input_file = mktemp(input_file);
 
-	if((fd = open(input_file, O_WRONLY|O_CREAT, 0600)) < 0)
+	if((fd = open(input_file, O_WRONLY|O_CREAT | O_BINARY, 0600)) < 0)
 	    system_fatal("can't open temporary file: %s", input_file);
 
 	if(write(fd, object->object_addr, object->object_size) !=

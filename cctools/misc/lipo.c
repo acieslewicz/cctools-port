@@ -572,7 +572,7 @@ unknown_flag:
 		   (thin_files[i].fat_arch.cpusubtype & ~CPU_SUBTYPE_MASK) ==
 		   (thin_arch_flag.cpusubtype & ~CPU_SUBTYPE_MASK)){
 		    (void)unlink(output_file);
-		    if((fd = open(output_file, O_WRONLY | O_CREAT | O_TRUNC,
+		    if((fd = open(output_file, O_WRONLY | O_CREAT | O_TRUNC | O_BINARY,
 				  output_filemode)) == -1)
 			system_fatal("can't create output file: %s",
 				     output_file);
@@ -894,7 +894,7 @@ create_fat(void)
 	}
 
 	rename_file = makestr(output_file, ".lipo", NULL);
-	if((fd = open(rename_file, O_WRONLY | O_CREAT | O_TRUNC,
+	if((fd = open(rename_file, O_WRONLY | O_CREAT | O_TRUNC | O_BINARY,
 		      output_filemode)) == -1)
 	    system_fatal("can't create temporary output file: %s", rename_file);
 
@@ -1019,7 +1019,7 @@ struct input_file *input)
     uint64_t big_size;
 
 	/* Open the input file and map it in */
-	if((fd = open(input->name, O_RDONLY)) == -1)
+	if((fd = open(input->name, O_RDONLY | O_BINARY)) == -1)
 	    system_fatal("can't open input file: %s", input->name);
 	if(fstat(fd, &stat_buf) == -1)
 	    system_fatal("can't stat input file: %s", input->name);
@@ -1309,7 +1309,7 @@ struct replace *replace)
     enum bool swapped;
 
 	/* Open the replacement file and map it in */
-	if((fd = open(replace->thin_file.name, O_RDONLY)) == -1)
+	if((fd = open(replace->thin_file.name, O_RDONLY | O_BINARY)) == -1)
 	    system_fatal("can't open replacement file: %s",
 			 replace->thin_file.name);
 	if(fstat(fd, &stat_buf) == -1)

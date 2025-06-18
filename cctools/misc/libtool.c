@@ -483,7 +483,7 @@ char **envp)
 		    }
 		    else
 			dirname = "";
-		    if((fd = open(filelist, O_RDONLY, 0)) == -1)
+		    if((fd = open(filelist, O_RDONLY| O_BINARY, 0)) == -1)
 			system_fatal("can't open file list file: %s", filelist);
 		    if(fstat(fd, &stat_buf) == -1)
 			system_fatal("can't stat file list file: %s", filelist);
@@ -2504,7 +2504,7 @@ struct ofile *ofile)
 	    if(same_toc == FALSE)
 		p = put_toc_member(p, archs+0, host_byte_sex, target_byte_sex);
 
-	    if((fd = open(output, O_WRONLY, 0)) == -1){
+	    if((fd = open(output, O_WRONLY| O_BINARY, 0)) == -1){
 		system_error("can't open output file: %s", output);
 		return;
 	    }
@@ -2536,7 +2536,7 @@ fail_to_update_toc_in_place:
 	 * of the unlink() is ignored).
 	 */
 	(void)unlink(output);
-	if((fd = open(output, O_WRONLY | O_CREAT | O_TRUNC, 0666)) == -1){
+	if((fd = open(output, O_WRONLY | O_CREAT | O_TRUNC | O_BINARY, 0666)) == -1){
 	    system_error("can't create output file: %s", output);
 	    return;
 	}
@@ -2750,7 +2750,7 @@ update_toc_ar_dates:
 	    system_fatal("can't stat file output file: %s", output);
 	    return;
 	}
-	if((fd = open(output, O_WRONLY, 0)) == -1){
+	if((fd = open(output, O_WRONLY | O_BINARY, 0)) == -1){
 	    system_error("can't open output file: %s", output);
 	    return;
 	}
@@ -4178,7 +4178,7 @@ const char *format, ...)
 
 	if(trace_file == -1){
 		if(cmd_flags.trace_file_path != NULL){
-			trace_file = open(cmd_flags.trace_file_path, O_WRONLY | O_APPEND | O_CREAT, 0666);
+			trace_file = open(cmd_flags.trace_file_path, O_WRONLY | O_APPEND | O_CREAT | O_BINARY, 0666);
 			if(trace_file == -1)
 				error("Could not open or create trace file: %s\n", cmd_flags.trace_file_path);
 		}
