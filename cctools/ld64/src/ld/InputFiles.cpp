@@ -226,7 +226,7 @@ ld::File* InputFiles::makeFile(const Options::FileInfo& info, bool indirectDylib
 {
 	// map in whole file
 	uint64_t len = info.fileLen;
-	int fd = ::open(info.path, O_RDONLY, 0);
+	int fd = ::open(info.path, O_RDONLY | O_BINARY, 0);
 	if ( fd == -1 )
 		throwf("can't open file, errno=%d", errno);
 	if ( info.fileLen < 20 )
@@ -508,7 +508,7 @@ void InputFiles::logTraceInfo(const char* format, ...) const
 	if ( trace_file == -1 ) {
 		const char *trace_file_path = _options.traceOutputFile();
 		if ( trace_file_path != NULL ) {
-			trace_file = open(trace_file_path, O_WRONLY | O_APPEND | O_CREAT, 0666);
+			trace_file = open(trace_file_path, O_WRONLY | O_APPEND | O_CREAT | O_BINARY, 0666);
 			if ( trace_file == -1 )
 				throwf("Could not open or create trace file (errno=%d): %s", errno, trace_file_path);
 		}
@@ -832,7 +832,7 @@ void InputFiles::inferArchitecture(Options& opts, const char** archName)
 	uint8_t buffer[4096];
 	const std::vector<Options::FileInfo>& files = opts.getInputFiles();
 	for (std::vector<Options::FileInfo>::const_iterator it = files.begin(); it != files.end(); ++it) {
-		int fd = ::open(it->path, O_RDONLY, 0);
+		int fd = ::open(it->path, O_RDONLY | O_BINARY, 0);
 		if ( fd != -1 ) {
 			struct stat stat_buf;
 			if ( fstat(fd, &stat_buf) != -1) {
@@ -1136,7 +1136,7 @@ void InputFiles::waitForInputFiles()
 				fileMap[entry.path] = &entry;
 			}
 		}
-		FILE *fileStream = fopen(fifo, "r");
+		FILE *fileStream = fopen(fifo, "rb");
 		if (!fileStream)
 			throwf("pipelined linking error - failed to open stream. fopen() returns %s for \"%s\"\n", strerror(errno), fifo);
 		while (fileMap.size() > 0) {

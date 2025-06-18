@@ -870,7 +870,7 @@ bool Parser::optimize(  const std::vector<const ld::Atom*>&	allAtoms,
         char tempMachoPath[MAXPATHLEN];
         strcpy(tempMachoPath, options.outputFilePath);
         strcat(tempMachoPath, ".lto.o");
-        int fd = ::open(tempMachoPath, O_CREAT | O_WRONLY | O_TRUNC, 0666);
+        int fd = ::open(tempMachoPath, O_CREAT | O_WRONLY | O_TRUNC|O_BINARY, 0666);
 		if ( fd != -1) {
 			::write(fd, machOFile, machOFileLen);
 			::close(fd);
@@ -879,7 +879,7 @@ bool Parser::optimize(  const std::vector<const ld::Atom*>&	allAtoms,
 
 	// if needed, save temp mach-o file to specific location
 	if ( options.tmpObjectFilePath != NULL ) {
-		int fd = ::open(options.tmpObjectFilePath, O_CREAT | O_WRONLY | O_TRUNC, 0666);
+		int fd = ::open(options.tmpObjectFilePath, O_CREAT | O_WRONLY | O_TRUNC | O_BINARY, 0666);
 		if ( fd != -1) {
 			::write(fd, machOFile, machOFileLen);
 			::close(fd);

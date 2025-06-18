@@ -89,7 +89,7 @@ void warning(const char* format, ...)
 		va_list	list;
 		if ( sWarningsSideFilePath != NULL ) {
 			if ( sWarningsSideFile == NULL )
-				sWarningsSideFile = fopen(sWarningsSideFilePath, "a");
+				sWarningsSideFile = fopen(sWarningsSideFilePath, "ab");
 		}
 		va_start(list, format);
 		fprintf(stderr, "ld: warning: ");
@@ -929,7 +929,7 @@ Options::FileInfo Options::findFileUsingPaths(const std::string &path) const
 
 void Options::parseSegAddrTable(const char* segAddrPath, const char* installPth)
 {
-	FILE* file = fopen(segAddrPath, "r");
+	FILE* file = fopen(segAddrPath, "rb");
 	if ( file == NULL ) {
 		warning("-seg_addr_table file cannot be read: %s", segAddrPath);
 		return;
@@ -986,14 +986,14 @@ void Options::loadFileList(const char* fileOfPaths, ld::File::Ordinal baseOrdina
 	const char* prefix = NULL;
 	if ( comma != NULL ) {
 		// <rdar://problem/5907981> -filelist fails with comma in path
-		file = fopen(fileOfPaths, "r");
+		file = fopen(fileOfPaths, "rb");
 		if ( file == NULL ) {
 			prefix = comma+1;
 			int realFileOfPathsLen = comma-fileOfPaths;
 			char realFileOfPaths[realFileOfPathsLen+1];
 			strncpy(realFileOfPaths,fileOfPaths, realFileOfPathsLen);
 			realFileOfPaths[realFileOfPathsLen] = '\0';
-			file = fopen(realFileOfPaths, "r");
+			file = fopen(realFileOfPaths, "rb");
 			if ( file == NULL )
 				throwf("-filelist file '%s' could not be opened, errno=%d (%s)\n", realFileOfPaths, errno, strerror(errno));
 			if ( this->dumpDependencyInfo() )
@@ -1001,7 +1001,7 @@ void Options::loadFileList(const char* fileOfPaths, ld::File::Ordinal baseOrdina
 		}
 	}
 	else {
-		file = fopen(fileOfPaths, "r");
+		file = fopen(fileOfPaths, "rb");
 		if ( file == NULL )
 			throwf("-filelist file '%s' could not be opened, errno=%d (%s)\n", fileOfPaths, errno, strerror(errno));
 		if ( this->dumpDependencyInfo() )

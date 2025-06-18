@@ -2803,7 +2803,7 @@ void OutputFile::writeOutputFile(ld::Internal& state)
 			sDescriptorOfPathToRemove = fd;
 		} 
 		else {
-			fd = open(tmpOutput, O_RDWR|O_CREAT, permissions);
+			fd = open(tmpOutput, O_RDWR|O_CREAT|O_BINARY, permissions);
 		}
 		if ( fd == -1 ) 
 			throwf("can't open output file for writing '%s', errno=%d", tmpOutput, errno);
@@ -2822,9 +2822,9 @@ void OutputFile::writeOutputFile(ld::Internal& state)
 	} 
 	else {
 		if ( outputIsRegularFile )
-			fd = open(_options.outputFilePath(),  O_RDWR|O_CREAT, permissions);
+			fd = open(_options.outputFilePath(),  O_RDWR|O_CREAT|O_BINARY, permissions);
 		else
-			fd = open(_options.outputFilePath(),  O_WRONLY);
+			fd = open(_options.outputFilePath(),  O_WRONLY|O_BINARY);
 		if ( fd == -1 ) 
 			throwf("can't open output file for writing: %s, errno=%d", _options.outputFilePath(), errno);
 		// try to allocate buffer for entire output file content
@@ -4764,7 +4764,7 @@ void OutputFile::makeSplitSegInfoV2(ld::Internal& state)
 void OutputFile::writeMapFile(ld::Internal& state)
 {
 	if ( _options.generatedMapPath() != NULL ) {
-		FILE* mapFile = fopen(_options.generatedMapPath(), "w"); 
+		FILE* mapFile = fopen(_options.generatedMapPath(), "wb"); 
 		if ( mapFile != NULL ) {
 			// write output path
 			fprintf(mapFile, "# Path: %s\n", _options.outputFilePath());

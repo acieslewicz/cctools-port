@@ -259,7 +259,7 @@ BitcodeAtom::BitcodeAtom(BitcodeTempFile& tempfile)
 BitcodeTempFile::BitcodeTempFile(const char* path, bool deleteAfterRead = true)
     : _path(path), _deleteAfterRead(deleteAfterRead)
 {
-    int fd = ::open(path, O_RDONLY, 0);
+    int fd = ::open(path, O_RDONLY | O_BINARY, 0);
     if ( fd == -1 )
         throwf("could not open bitcode temp file: %s", path);
     struct stat stat_buf;
@@ -404,7 +404,7 @@ void BundleHandler::init()
     // write the bundle to the temp_directory
     initFile();
     std::string oldXARPath = std::string(_temp_dir) + std::string("/bundle.xar");
-    int f = ::open(oldXARPath.c_str(), O_WRONLY | O_CREAT, S_IRUSR | S_IWUSR);
+    int f = ::open(oldXARPath.c_str(), O_WRONLY | O_CREAT, S_IRUSR | S_IWUSR | O_BINARY);
     if ( f == -1 )
         throwf("could not write file to temp directory: %s", _temp_dir);
     if ( ::write(f, _file_buffer, _file_size) != (int)_file_size )
@@ -412,7 +412,7 @@ void BundleHandler::init()
     ::close(f);
 
     // read the xar file
-    _xar = xar_open(oldXARPath.c_str(), READ);
+    _xar = xar_open(oldXARPath.c_str(), READ | O_BINARY);
 
     // Init the vector of handler
     xar_iter_t iter = xar_iter_new();
@@ -511,7 +511,7 @@ void BundleHandler::obfuscateAndWriteToPath(BitcodeObfuscator *obfuscator, const
         init();
 
     // creating the new xar
-    xar_t x = xar_open(path, WRITE);
+    xar_t x = xar_open(path, WRITE | O_BINARY);
     if (x == NULL)
         throwf("could not open output bundle to write %s", path);
     // Disable compression
@@ -575,7 +575,7 @@ void SymbolListHandler::obfuscateAndWriteToPath(BitcodeObfuscator* obfuscator, c
         }
     }
     exports_list += "\n";
-    int f = ::open(path, O_WRONLY | O_CREAT, S_IRUSR | S_IWUSR);
+    int f = ::open(path, O_WRONLY | O_CREAT, S_IRUSR | S_IWUSR | O_BINARY);
     if ( f == -1 || ::write(f, exports_list.data(), exports_list.size()) != (int)exports_list.size() )
         throwf("failed to write content to temp file: %s", path);
     ::close(f);
@@ -584,7 +584,7 @@ void SymbolListHandler::obfuscateAndWriteToPath(BitcodeObfuscator* obfuscator, c
 void FileHandler::obfuscateAndWriteToPath(BitcodeObfuscator *obfuscator, const char *path)
 {
     initFile();
-    int f = ::open(path, O_WRONLY | O_CREAT, S_IRUSR | S_IWUSR);
+    int f = ::open(path, O_WRONLY | O_CREAT, S_IRUSR | S_IWUSR | O_BINARY);
     if ( f == -1 || ::write(f, _file_buffer, _file_size) != (int)_file_size )
         throwf("failed to write content to temp file: %s", path);
     ::close(f);
@@ -674,7 +674,7 @@ void BitcodeBundle::doPass()
     sprintf(outFile, "%s/bundle.xar", tempdir);
 
     // By default, it uses gzip to compress and SHA1 as checksum
-    x = xar_open(outFile, WRITE);
+    x = xar_open(outFile, WRITE | O_BINARY);
     if (x == NULL)
         throwf("could not open output bundle to write %s", outFile);
     // Disable compression

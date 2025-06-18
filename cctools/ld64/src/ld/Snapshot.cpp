@@ -162,8 +162,8 @@ void Snapshot::copyFileToSnapshot(const char *sourcePath, const char *subdir, ch
     char buf[PATH_MAX];
     if (path == NULL) path = buf;
     buildUniquePath(path, subdir, file);
-    int out_fd = open(path, O_WRONLY|O_CREAT|O_TRUNC, S_IRUSR|S_IWUSR);
-    int in_fd = open(sourcePath, O_RDONLY);
+    int out_fd = open(path, O_WRONLY|O_CREAT|O_TRUNC, S_IRUSR|S_IWUSR|O_BINARY);
+    int in_fd = open(sourcePath, O_RDONLY|O_BINARY);
     int len;
     if (out_fd != -1 && in_fd != -1) {
         do {
@@ -198,7 +198,7 @@ void Snapshot::createSnapshot()
         }
         
         buildPath(buf, NULL, compileFileString);
-        int compileScript = open(buf, O_WRONLY|O_CREAT|O_TRUNC, S_IXUSR|S_IRUSR|S_IWUSR);
+        int compileScript = open(buf, O_WRONLY|O_CREAT|O_TRUNC, S_IXUSR|S_IRUSR|S_IWUSR|O_BINARY);
         write(compileScript, compile_stubs, strlen(compile_stubs));
         close(compileScript);
 
@@ -218,7 +218,7 @@ void Snapshot::createSnapshot()
 #if STORE_PID_IN_SNAPSHOT
         char path[PATH_MAX];
         buildUniquePath(path, NULL, pidString);
-        int pidfile = open(path, O_WRONLY|O_CREAT|O_TRUNC, S_IRUSR|S_IWUSR);
+        int pidfile = open(path, O_WRONLY|O_CREAT|O_TRUNC, S_IRUSR|S_IWUSR|O_BINARY);
         char pid_buf[32];
         sprintf(pid_buf, "%lu\n", (long unsigned)getpid());
         write(pidfile, pid_buf, strlen(pid_buf));
@@ -239,8 +239,8 @@ void Snapshot::writeCommandLine(StringVector &args, const char *filename, bool i
             filename = linkCommandString;
         char path[PATH_MAX];
         buildPath(path, NULL, filename);
-        int argsFile = open(path, O_WRONLY|O_CREAT|O_TRUNC, S_IXUSR|S_IRUSR|S_IWUSR);
-        FILE *argsStream = fdopen(argsFile, "w");
+        int argsFile = open(path, O_WRONLY|O_CREAT|O_TRUNC, S_IXUSR|S_IRUSR|S_IWUSR|O_BINARY);
+        FILE *argsStream = fdopen(argsFile, "wb");
         
         if (includeCWD)
             fprintf(argsStream, "cd %s\n", getcwd(path, sizeof(path)));
@@ -327,7 +327,7 @@ void Snapshot::recordArch(const char *arch)
         } else {
             char path_buf[PATH_MAX];
             buildUniquePath(path_buf, NULL, "arch");
-            int fd=open(path_buf, O_WRONLY|O_CREAT|O_TRUNC, S_IRUSR|S_IWUSR);
+            int fd=open(path_buf, O_WRONLY|O_CREAT|O_TRUNC, S_IRUSR|S_IWUSR|O_BINARY);
             write(fd, arch, strlen(arch));
             close(fd);
         }
@@ -351,7 +351,7 @@ void Snapshot::recordObjectFile(const char *path)
             if (fFilelistFile == -1) {
                 char filelist_path[PATH_MAX];
                 buildUniquePath(filelist_path, objectsString, "filelist");
-                fFilelistFile = open(filelist_path, O_WRONLY|O_CREAT|O_TRUNC, S_IRUSR|S_IWUSR);
+                fFilelistFile = open(filelist_path, O_WRONLY|O_CREAT|O_TRUNC, S_IRUSR|S_IWUSR|O_BINARY);
                 fArgs.push_back("-filelist");
                 fArgs.push_back(strdup(snapshotRelativePath(filelist_path)));
                 writeCommandLine(fArgs);
@@ -416,7 +416,7 @@ void Snapshot::recordDylibSymbol(ld::dylib::File* dylibFile, const char *name)
                 // Didn't find a file descriptor for this dylib. Create one and add it to the dylib map.
                 char path_buf[PATH_MAX];
                 buildUniquePath(path_buf, isFramework ? frameworkStubsString : dylibStubsString, dylibPath);
-                dylibFd = open(path_buf, O_WRONLY|O_APPEND|O_CREAT, S_IRUSR|S_IWUSR);
+                dylibFd = open(path_buf, O_WRONLY|O_APPEND|O_CREAT, S_IRUSR|S_IWUSR|O_BINARY);
                 fDylibSymbols.insert(std::pair<const char *, int>(dylibPath, dylibFd));
                 char *base_name = strdup(basename(path_buf));
                 if (isFramework) {
@@ -535,7 +535,7 @@ void Snapshot::recordAssertionMessage(const char *fmt, ...)
         } else {
             char path[PATH_MAX];
             buildPath(path, NULL, assertFileString);
-            int log = open(path, O_WRONLY|O_APPEND|O_CREAT, S_IRUSR|S_IWUSR);
+            int log = open(path, O_WRONLY|O_APPEND|O_CREAT, S_IRUSR|S_IWUSR|O_BINARY);
             write(log, msg, strlen(msg));
             close(log);
             free(msg);
