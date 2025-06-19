@@ -97,13 +97,13 @@ typedef	int			int32_t;
 typedef	unsigned int		u_int32_t;
 #ifndef _INT64_T
 #define _INT64_T
-#if !defined(__NetBSD__) && !defined(__OpenBSD__) && !defined(__DragonFly__)
+#if !defined(__NetBSD__) && !defined(__OpenBSD__) && !defined(__DragonFly__) && !defined(__linux__)
 typedef	long long		int64_t;
 #else
 typedef long            int64_t;
 #endif /* ! __NetBSD__ && !__OpenBSD__ && !__DragonFly__  */
 #endif
-#if !defined(__NetBSD__) && !defined(__OpenBSD__) && !defined(__DragonFly__)
+#if !defined(__NetBSD__) && !defined(__OpenBSD__) && !defined(__DragonFly__) && !defined(__linux__)
 typedef	unsigned long long	u_int64_t;
 #else
 typedef unsigned long       u_int64_t;
