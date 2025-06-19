@@ -101,7 +101,6 @@ target_compile_definitions(
         HAVE_STDINT_H=1
         HAVE_UNISTD_H=1
         HAVE_DLFCN_H=1
-        _UINTPTR_T=1
         u_short=uint16_t
 )
 
