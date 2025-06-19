@@ -75,7 +75,7 @@
 #endif /* __DragonFly__ */
 #include <i386/_types.h>
 #include <sys/cdefs.h>
-#include <stdint.h> /* uintptr_t */
+
 /*
  * Basic integral types.  Omit the typedef if
  * not possible for a machine/compiler combination.
@@ -118,6 +118,11 @@ typedef int32_t			register_t;
 #ifndef _INTPTR_T
 #define _INTPTR_T
 typedef __darwin_intptr_t	intptr_t;
+#endif
+
+#if !defined(_UINTPTR_T) && !defined(__uintptr_t_defined)
+#define _UINTPTR_T
+typedef unsigned long		uintptr_t;
 #endif
 
 #if !defined(_ANSI_SOURCE) && (!defined(_POSIX_C_SOURCE) || defined(_DARWIN_C_SOURCE))
