@@ -30,33 +30,6 @@ set(ld64_include_dirs
 
 include_directories(${ld64_include_dirs})
 
-add_definitions(
-    -U__APPLE__
-    -DEMULATED_HOST_CPU_TYPE=16777223
-    -DEMULATED_HOST_CPU_SUBTYPE=3
-    -D__STDC_LIMIT_MACROS=1
-    -D__STDC_CONSTANT_MACROS=1
-    -D__DARWIN_UNIX03
-    -DPROGRAM_PREFIX=""
-    -DSTDC_HEADERS=1
-    -DHAVE_SYS_TYPES_H=1
-    -DHAVE_SYS_STAT_H=1
-    -DHAVE_STDLIB_H=1
-    -DHAVE_STRING_H=1
-    -DHAVE_MEMORY_H=1
-    -DHAVE_STRINGS_H=1
-    -DHAVE_INTTYPES_H=1
-    -DHAVE_STDINT_H=1
-    -DHAVE_UNISTD_H=1
-    -DHAVE_DLFCN_H=1
-    -D_UINTPTR_T=1
-    -Du_short=uint16_t
-)
-
-if(NOT WIN32)
-    add_definitions(-DHAVE_EXECINFO_H=1)
-endif()
-
 set(ld64_sources
     ./ld/InputFiles.cpp
     ./ld/OutputFile.cpp
@@ -107,6 +80,34 @@ if(WIN32)
 endif()
 
 add_executable(ld ${ld64_sources})
+
+target_compile_definitions(
+    ld
+    PRIVATE
+        EMULATED_HOST_CPU_TYPE=${EMULATED_HOST_CPU_TYPE}
+        EMULATED_HOST_CPU_SUBTYPE=${EMULATED_HOST_CPU_SUBTYPE}
+        __STDC_LIMIT_MACROS=1
+        __STDC_CONSTANT_MACROS=1
+        __DARWIN_UNIX03
+        PROGRAM_PREFIX=""
+        STDC_HEADERS=1
+        HAVE_SYS_TYPES_H=1
+        HAVE_SYS_STAT_H=1
+        HAVE_STDLIB_H=1
+        HAVE_STRING_H=1
+        HAVE_MEMORY_H=1
+        HAVE_STRINGS_H=1
+        HAVE_INTTYPES_H=1
+        HAVE_STDINT_H=1
+        HAVE_UNISTD_H=1
+        HAVE_DLFCN_H=1
+        _UINTPTR_T=1
+        u_short=uint16_t
+)
+
+if(NOT WIN32)
+    target_compile_definitions(ld PRIVATE HAVE_EXECINFO_H=1)
+endif()
 
 target_compile_options(
     ld
