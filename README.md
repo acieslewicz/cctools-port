@@ -1,15 +1,23 @@
 # Apple cctools port for Linux, *BSD and Windows #
 
-This currently only supports the build of ld64.
+This currently only supports the build of ld64 and lipo.
 
 Current Version: 877.8 + ld64-253.9.  
 Originally ported by [cjacker](http://ios-toolchain-based-on-clang-for-linux.googlecode.com).
 
 ## LICENSE ##
-This project is licensed under the Apple Public Source License (APSL).  
-On Windows builds, the mmap-win32 component is licensed under the MIT License.
+This project is licensed under the Apple Public Source License (APSL).
 
-See the included LICENSE files for complete terms.
+### Windows Builds ###
+The windows builds include a few extra components:
+
+- mmap-win32 (vendored): MIT License (see ```cctools\mman\LICENSE.mman```)
+- dlfcn (linked): MIT License (see ```LICENSES\COPYING.dlfcn```)
+- winpthreads (linked): MIT License and BSD Style License (see ```LICENSES\COPYING.winpthreads```) 
+- libgcc (linked): GPL-3.0-or-later with the GCC-exception-3.1(see ```LICENSES\COPYING.libgcc```)
+- libstdc++ (linked): GPL-3.0-or-later with the GCC-exception-3.1 (see ```LICENSES\COPYING.libc++```)
+
+See the referenced LICENSE file(s) for complete terms.
 
 ## SUPPORTED HOSTS ##
 

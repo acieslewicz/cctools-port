@@ -150,6 +150,7 @@ endif()
 
 if(WIN32)
     target_link_libraries(ld ws2_32 -ldl)
+    target_link_options(ld PRIVATE -static-libgcc -static-libstdc++ -static)
 else()
     target_link_libraries(ld -lpthread -ldl)
 endif()
@@ -158,4 +159,12 @@ install(TARGETS ld RUNTIME DESTINATION bin)
 
 if(WIN32)
     install(FILES ../../mman/LICENSE.mman DESTINATION .)
+    install(
+        FILES
+            ../../../LICENSES/COPYING.dlfcn
+            ../../../LICENSES/COPYING.libc++
+            ../../../LICENSES/COPYING.libgcc
+            ../../../LICENSES/COPYING.winpthreads
+        DESTINATION .
+    )
 endif()
