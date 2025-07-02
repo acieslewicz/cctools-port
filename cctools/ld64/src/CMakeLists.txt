@@ -161,10 +161,10 @@ if(WIN32)
     install(FILES ../../mman/LICENSE.mman DESTINATION .)
     install(
         FILES
-            ../../../LICENSES/COPYING.dlfcn
-            ../../../LICENSES/COPYING.libc++
-            ../../../LICENSES/COPYING.libgcc
-            ../../../LICENSES/COPYING.winpthreads
+            ../../../licenses/COPYING.dlfcn
+            ../../../licenses/COPYING.libc++
+            ../../../licenses/COPYING.libgcc
+            ../../../licenses/COPYING.winpthreads
         DESTINATION .
     )
 endif()

@@ -11,11 +11,11 @@ This project is licensed under the Apple Public Source License (APSL).
 ### Windows Builds ###
 The windows builds include a few extra components:
 
-- mmap-win32 (vendored): MIT License (see ```cctools\mman\LICENSE.mman```)
-- dlfcn (linked): MIT License (see ```LICENSES\COPYING.dlfcn```)
-- winpthreads (linked): MIT License and BSD Style License (see ```LICENSES\COPYING.winpthreads```) 
-- libgcc (linked): GPL-3.0-or-later with the GCC-exception-3.1(see ```LICENSES\COPYING.libgcc```)
-- libstdc++ (linked): GPL-3.0-or-later with the GCC-exception-3.1 (see ```LICENSES\COPYING.libc++```)
+- mmap-win32 (vendored): MIT License (see `cctools\mman\LICENSE.mman`)
+- dlfcn (linked): MIT License (see `licenses\COPYING.dlfcn`)
+- winpthreads (linked): MIT License and BSD Style License (see `licenses\COPYING.winpthreads`) 
+- libgcc (linked): GPL-3.0-or-later with the GCC-exception-3.1(see `licenses\COPYING.libgcc`)
+- libstdc++ (linked): GPL-3.0-or-later with the GCC-exception-3.1 (see `licenses\COPYING.libc++`)
 
 See the referenced LICENSE file(s) for complete terms.
 
